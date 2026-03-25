@@ -23,11 +23,11 @@ from fastapi import Depends
 from keycloak import KeycloakConnectionError
 from loguru import logger
 
-from patient.config import csv_config
-from patient.config.dev_modus import dev_keycloak_populate
-from patient.security import User, UserService
-from patient.security.dependencies import get_user_service
-from patient.security.role import Role
+from parkhaus.config import csv_config
+from parkhaus.config.dev_modus import dev_keycloak_populate
+from parkhaus.security import User, UserService
+from parkhaus.security.dependencies import get_user_service
+from parkhaus.security.role import Role
 
 __all__ = [
     "KeycloakPopulateService",
@@ -43,7 +43,7 @@ class KeycloakPopulateService:
     """Service für das Neuladen von Keycloak im Modus DEV."""
 
     def __init__(self, user_service: UserService) -> None:
-        """Konstruktor mit abhängigem PatientRepository."""
+        """Konstruktor mit abhängigem parkhausRepository."""
         self.user_service: UserService = user_service
 
     def populate(self) -> None:
@@ -90,11 +90,11 @@ class KeycloakPopulateService:
                     email=email,
                     nachname=nachname,
                     vorname=nachname,
-                    roles=[Role.PATIENT],
+                    roles=[Role.parkhaus],
                     password="p",  # noqa: S106 # NOSONAR
                 )
                 self.user_service.create_user(user=user)
-        logger.debug("Alle User zu 'patient.csv' neu angelegt")
+        logger.debug("Alle User zu 'parkhaus.csv' neu angelegt")
 
 
 def get_keycloak_populate_service(
