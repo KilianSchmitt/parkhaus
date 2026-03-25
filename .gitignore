@@ -14,8 +14,8 @@ extras/**/__pycache__
 htmlcov
 log
 site
-src/patient/**/__pycache__
-src/patient/patient.egg-info
+src/parkhaus/**/__pycache__
+src/parkhaus/parkhaus.egg-info
 tests/**/__pycache__
 
 .coverage
@@ -26,4 +26,4 @@ dependency-check-report.html
 # Sensible Daten
 .env
 extras/compose/db/postgres/db_password.txt
-src/patient/config/resources/tls/private-key.pem
+src/parkhaus/config/resources/tls/private-key.pem
