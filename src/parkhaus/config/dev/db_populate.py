@@ -23,6 +23,7 @@ from string import Template
 from typing import Final
 
 from loguru import logger
+from parkhaus.repository import engine
 from sqlalchemy import Connection, create_engine, text
 
 from parkhaus.config.config import resources_path
@@ -33,7 +34,6 @@ from parkhaus.config.db import (
     db_url_admin,
 )
 from parkhaus.config.dev_modus import dev_db_populate
-from parkhaus.repository import engine
 
 __all__ = ["DbPopulateService", "db_populate", "get_db_populate_service"]
 
