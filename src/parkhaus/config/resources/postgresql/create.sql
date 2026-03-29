@@ -19,62 +19,45 @@
 -- ggf. CHECK(char_length(nachname) <= 255)
 
 -- https://www.postgresql.org/docs/current/manage-ag-tablespaces.html
-SET default_tablespace = patientspace;
+SET default_tablespace = parkhausspace;
 
 -- https://www.postgresql.org/docs/current/sql-createtable.html
 -- https://www.postgresql.org/docs/current/datatype.html
 -- https://www.postgresql.org/docs/current/sql-createtype.html
 -- https://www.postgresql.org/docs/current/datatype-enum.html
-CREATE TYPE geschlecht AS ENUM ('MAENNLICH', 'WEIBLICH', 'DIVERS');
-CREATE TYPE familienstand AS ENUM ('LEDIG', 'VERHEIRATET', 'GESCHIEDEN', 'VERWITWET');
-CREATE TYPE facharzt AS ENUM ('CHIRURGIE', 'HALS_NASEN_OHREN', 'KARDIOLOGIE', 'NEUROLOGIE');
+CREATE TYPE kundentyp AS ENUM ('PREMIUM', 'BASIS', 'ANWOHNER');
 
 CREATE TABLE IF NOT EXISTS patient (
     id            INTEGER GENERATED ALWAYS AS IDENTITY(START WITH 1000) PRIMARY KEY,
     version       INTEGER NOT NULL DEFAULT 0,
-    nachname      TEXT NOT NULL,
-                  -- impliziter Index als B-Baum durch UNIQUE
-                  -- https://www.postgresql.org/docs/current/ddl-constraints.html#DDL-CONSTRAINTS-UNIQUE-CONSTRAINTS
-    email         TEXT NOT NULL UNIQUE,
-                  -- https://www.postgresql.org/docs/current/ddl-constraints.html#DDL-CONSTRAINTS-CHECK-CONSTRAINTS
-    kategorie     INTEGER NOT NULL CHECK (kategorie >= 0 AND kategorie <= 9),
-                  -- https://www.postgresql.org/docs/current/datatype-boolean.html
-    has_newsletter BOOLEAN NOT NULL DEFAULT FALSE,
-                  -- https://www.postgresql.org/docs/current/datatype-datetime.html
-    geburtsdatum  DATE CHECK (geburtsdatum < current_date),
-    homepage      TEXT,
-    geschlecht    geschlecht,
-    familienstand familienstand,
-                  -- https://www.postgresql.org/docs/current/datatype-json.html
-                  -- https://www.postgresql.org/docs/current/arrays.html
-                  -- fachaerzte    facharzt[],
-    fachaerzte    JSONB,
-    username      TEXT NOT NULL,
-                  -- https://www.postgresql.org/docs/current/datatype-datetime.html
+    name          TEXT NOT NULL,
+    kapazitaet    INTEGER NOT NULL CHECK (kapazitaet >= 0),
+    tarif_pro_stunde NUMERIC(10,2) NOT NULL,
     erzeugt       TIMESTAMP NOT NULL,
     aktualisiert  TIMESTAMP NOT NULL
 );
 
 -- default: btree
-CREATE INDEX IF NOT EXISTS patient_nachname_idx ON patient(nachname);
+CREATE INDEX IF NOT EXISTS parkhaus_name_idx ON parkhaus(name);
 
 CREATE TABLE IF NOT EXISTS adresse (
     id          INTEGER GENERATED ALWAYS AS IDENTITY(START WITH 1000) PRIMARY KEY,
     plz         TEXT NOT NULL CHECK (plz ~ '\d{5}'),
     ort         TEXT NOT NULL,
-    patient_id  INTEGER NOT NULL REFERENCES patient ON DELETE CASCADE
+    strasse     TEXT NOT NULL,
+    hausnummer  TEXT NOT NULL,
+    parkhaus_id INTEGER NOT NULL REFERENCES parkhaus ON DELETE CASCADE
 );
 
-CREATE INDEX IF NOT EXISTS adresse_patient_id_idx ON adresse(patient_id);
+CREATE INDEX IF NOT EXISTS adresse_parkhaus_id_idx ON adresse(parkhaus_id);
 CREATE INDEX IF NOT EXISTS adresse_plz_idx ON adresse(plz);
 
-CREATE TABLE IF NOT EXISTS rechnung (
+CREATE TABLE IF NOT EXISTS auto (
     id          INTEGER GENERATED ALWAYS AS IDENTITY(START WITH 1000) PRIMARY KEY,
-                -- https://www.postgresql.org/docs/current/datatype-numeric.html#DATATYPE-NUMERIC-DECIMAL
-                -- https://www.postgresql.org/docs/current/datatype-money.html
-                -- 10 Stellen, davon 2 Nachkommastellen
-    betrag      NUMERIC(10,2) NOT NULL,
-    waehrung    TEXT NOT NULL CHECK (waehrung ~ '[A-Z]{3}'),
-    patient_id  INTEGER NOT NULL REFERENCES patient ON DELETE CASCADE
+    kennzeichen TEXT NOT NULL,
+    einfahrtszeit TIMESTAMP NOT NULL,
+    kundentyp kundentyp NOT NULL,
+    parkhaus_id INTEGER NOT NULL REFERENCES parkhaus ON DELETE CASCADE
 );
-CREATE INDEX IF NOT EXISTS rechnung_patient_id_idx ON rechnung(patient_id);
+
+CREATE INDEX IF NOT EXISTS auto_parkhaus_id_idx ON auto(parkhaus_id);
