@@ -29,7 +29,7 @@ class Adresse(Base):
     )
     """Die generierte ID gemäß der zugehörigen IDENTITY-Spalte."""
 
-    parkhaus_id: Mapped[int] = mapped_column(ForeignKey("parkhaus.id"))
+    parkhaus_id: Mapped[int] = mapped_column(ForeignKey("parkhaus.id"), unique=True)
     """ID des zugehörigen Parkhauses als Fremdschlüssel in der DB-Tabelle."""
 
     def __repr__(self) -> str:

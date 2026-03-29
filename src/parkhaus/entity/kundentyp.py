@@ -4,15 +4,16 @@ from enum import StrEnum
 
 import strawberry
 
+
 @strawberry.enum
 class Kundentyp(StrEnum):
     """Enum für die verschiedenen Kundentypen."""
 
-    PREMIUM = "P"
+    PREMIUM = "PREMIUM"
     """Premiumkunde."""
 
-    BASIS = "B"
+    BASIS = "BASIS"
     """Basiskunde."""
 
-    ANWOHNER = "A"
+    ANWOHNER = "ANWOHNER"
     """Anwohner."""
