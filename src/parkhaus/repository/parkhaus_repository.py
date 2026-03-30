@@ -1,10 +1,12 @@
 """Repository für persistente Parkhaus-Daten."""
 
+from typing import Final
+
 from loguru import logger
 from sqlalchemy import select
 from sqlalchemy.orm import Session, joinedload
+
 from parkhaus.entity.parkhaus import Parkhaus
-from typing import Final
 
 
 class ParkhausRepository:
