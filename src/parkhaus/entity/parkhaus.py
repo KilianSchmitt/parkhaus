@@ -1,5 +1,6 @@
 """Entity-Klasse für Parkhausdaten."""
 from datetime import datetime
+from decimal import Decimal
 from typing import Any, Self
 
 from sqlalchemy import Identity, func
@@ -27,7 +28,7 @@ class Parkhaus(Base):
     kapazitaet: Mapped[int]
     """Die Anzahl der Parkplätze des Parkhauses."""
 
-    tarif_pro_stunde: Mapped[float]
+    tarif_pro_stunde: Mapped[Decimal]
     """Der Tarif pro Stunde für das Parkhaus."""
 
     adresse: Mapped[Adresse] = relationship(
