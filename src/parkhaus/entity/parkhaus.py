@@ -8,6 +8,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from parkhaus.entity.adresse import Adresse
 from parkhaus.entity.auto import Auto
 from parkhaus.entity.base import Base
+from decimal import Decimal
 
 
 class Parkhaus(Base):
@@ -27,7 +28,7 @@ class Parkhaus(Base):
     kapazitaet: Mapped[int]
     """Die Anzahl der Parkplätze des Parkhauses."""
 
-    tarif_pro_stunde: Mapped[float]
+    tarif_pro_stunde: Mapped[Decimal]
     """Der Tarif pro Stunde für das Parkhaus."""
 
     adresse: Mapped[Adresse] = relationship(

@@ -1,11 +1,8 @@
 """Pydantic-Modell für das Auto."""
-
 from typing import Annotated
-
 from datetime import datetime
-
+from parkhaus.entity.kundentyp import Kundentyp
 from pydantic import BaseModel, ConfigDict, StringConstraints
-
 from parkhaus.entity.auto import Auto
 
 class AutoModell(BaseModel):
@@ -17,7 +14,7 @@ class AutoModell(BaseModel):
     einfahrtszeit: datetime
     """Die Einfahrtszeit als ISO 8601 String."""
 
-    kundentyp: Annotated[str, StringConstraints(pattern=r"^(PREMIUM|BASIS|ANWOHNER)$")]
+    kundentyp: Kundentyp
     """Der Kundentyp, entweder 'PREMIUM', 'BASIS' oder 'ANWOHNER'."""
 
     model_config = ConfigDict(
