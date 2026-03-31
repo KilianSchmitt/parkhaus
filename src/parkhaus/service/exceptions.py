@@ -27,7 +27,7 @@ class NotFoundError(Exception):
 
     def __init__(
         self,
-        patient_id: int | None = None,
+        parkhaus_id: int | None = None,
         suchparameter: Mapping[str, str] | None = None,
     ) -> None:
         """Initialisierung von NotFoundError mit ID und Suchparameter.
@@ -36,5 +36,5 @@ class NotFoundError(Exception):
         :param suchparameter: Suchparameter, zu denen nichts gefunden wurde
         """
         super().__init__("Not Found")
-        self.patient_id = patient_id
+        self.parkhaus_id = parkhaus_id
         self.suchparameter = suchparameter
