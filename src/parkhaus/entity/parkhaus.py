@@ -1,5 +1,6 @@
 """Entity-Klasse für Parkhausdaten."""
 from datetime import datetime
+from decimal import Decimal
 from typing import Any, Self
 
 from sqlalchemy import Identity, func
@@ -8,7 +9,6 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from parkhaus.entity.adresse import Adresse
 from parkhaus.entity.auto import Auto
 from parkhaus.entity.base import Base
-from decimal import Decimal
 
 
 class Parkhaus(Base):

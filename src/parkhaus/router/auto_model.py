@@ -1,9 +1,12 @@
 """Pydantic-Modell für das Auto."""
-from typing import Annotated
 from datetime import datetime
-from parkhaus.entity.kundentyp import Kundentyp
+from typing import Annotated
+
 from pydantic import BaseModel, ConfigDict, StringConstraints
+
 from parkhaus.entity.auto import Auto
+from parkhaus.entity.kundentyp import Kundentyp
+
 
 class AutoModell(BaseModel):
     """Pydantic-Modell für das Auto."""

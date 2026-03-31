@@ -1,7 +1,9 @@
 """Pydantic-Modell für die Adresse."""
 
 from typing import Annotated
+
 from pydantic import BaseModel, ConfigDict, StringConstraints
+
 from parkhaus.entity.adresse import Adresse
 
 __all__ = ["AdresseModel"]
