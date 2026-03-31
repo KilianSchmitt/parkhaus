@@ -13,7 +13,7 @@ class AdresseModel(BaseModel):
     """Pydantic-Modell für die Adresse."""
 
     plz: Annotated[str, StringConstraints(pattern=r"^\d{5}$")]
-    """Postleitzahl – muss aus genau 5 Ziffern bestehen."""
+    """Postleitzahl muss aus genau 5 Ziffern bestehen."""
 
     ort: Annotated[str, StringConstraints(max_length=64)]
     """Ort."""
