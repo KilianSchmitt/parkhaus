@@ -40,6 +40,9 @@ class Parkhaus(Base):
     autos: Mapped[list[Auto]] = relationship(cascade="save-update, delete")
     """Die in einer 1:N-Beziehung referenzierten Autos."""
 
+    version: Mapped[int] = mapped_column(nullable=False, default=0)
+    """Die Versionsnummer für optimistische Synchronisation."""
+
     erzeugt: Mapped[datetime | None] = mapped_column(
         insert_default=func.now(),
         default=None,
