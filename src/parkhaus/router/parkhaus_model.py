@@ -1,3 +1,5 @@
+"""Pydantic-Modell für das Parkhaus."""
+
 from decimal import Decimal
 from typing import Annotated
 
@@ -14,7 +16,7 @@ class ParkhausModel(BaseModel):
     name: Annotated[str, StringConstraints(max_length=64)]
     """Der Name des Parkhauses."""
 
-    kapazitaet: Annotated[int, StringConstraints(ge=1)]
+    kapazitaet: Annotated[int, (ge=1)]
     """Die Anzahl der Parkplätze des Parkhauses."""
 
     tarif_pro_stunde: Annotated[Decimal, StringConstraints(ge=0)]
