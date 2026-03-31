@@ -22,12 +22,12 @@ from typing import Annotated, Final
 from fastapi import Depends
 from keycloak import KeycloakConnectionError
 from loguru import logger
-from parkhaus.security import User, UserService
-from parkhaus.security.dependencies import get_user_service
-from parkhaus.security.role import Role
 
 from parkhaus.config import csv_config
 from parkhaus.config.dev_modus import dev_keycloak_populate
+from parkhaus.security import User, UserService
+from parkhaus.security.dependencies import get_user_service
+from parkhaus.security.role import Role
 
 __all__ = [
     "KeycloakPopulateService",
