@@ -113,7 +113,7 @@ class DbPopulateService:
 
     def _load_csv_files(self) -> None:
         logger.debug("begin")
-        tabellen: Final = ["parkhaus", "adresse", "rechnung"]
+        tabellen: Final = ["parkhaus", "adresse", "auto"]
         csv_path: Final = "/init/parkhaus/csv"
         # siehe extras/compose/postgres/compose.init.yml
         with self.engine_admin.connect() as connection:

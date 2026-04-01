@@ -90,7 +90,7 @@ class KeycloakPopulateService:
                     email=email,
                     nachname=nachname,
                     vorname=nachname,
-                    roles=[Role.parkhaus],
+                    roles=[Role.PATIENT],
                     password="p",  # noqa: S106 # NOSONAR
                 )
                 self.user_service.create_user(user=user)
