@@ -23,7 +23,7 @@ __all__ = [
 
 
 class NotFoundError(Exception):
-    """Exception, falls kein Patient gefunden wurde."""
+    """Exception, falls kein parkhaus gefunden wurde."""
 
     def __init__(
         self,
@@ -32,7 +32,7 @@ class NotFoundError(Exception):
     ) -> None:
         """Initialisierung von NotFoundError mit ID und Suchparameter.
 
-        :param patient_id: Patient-ID, zu der nichts gefunden wurde
+        :param parkhaus_id: parkhaus-ID, zu der nichts gefunden wurde
         :param suchparameter: Suchparameter, zu denen nichts gefunden wurde
         """
         super().__init__("Not Found")
