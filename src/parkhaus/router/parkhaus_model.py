@@ -3,7 +3,7 @@
 from decimal import Decimal
 from typing import Annotated
 
-from pydantic import BaseModel, ConfigDict, Field, StringConstraints
+from pydantic import BaseModel, ConfigDict, Field, StringConstraints, field_serializer
 
 from parkhaus.entity.parkhaus import Parkhaus
 from parkhaus.router.adresse_model import AdresseModel
@@ -28,12 +28,17 @@ class ParkhausModel(BaseModel):
     autos: list[AutoModell]
     """Die Liste der Autos, die im Parkhaus geparkt sind."""
 
+    @field_serializer("tarif_pro_stunde")
+    def serialize_decimal(self, value: Decimal, _info):
+        """Wandelt Decimal für JSON in einen String um."""
+        return str(value)
+
     model_config = ConfigDict(
         json_schema_extra={
             "example": {
                 "name": "Parkhaus am Schloss",
                 "kapazitaet": 200,
-                "tarif_pro_stunde": 2.5,
+                "tarif_pro_stunde": "12.50",
                 "adresse": {
                     "plz": "76133",
                     "ort": "Karlsruhe",

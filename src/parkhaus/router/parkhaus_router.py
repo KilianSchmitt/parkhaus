@@ -53,4 +53,5 @@ def get_by_id(
 def _parkhaus_to_dict(parkhaus: ParkhausDTO) -> dict[str, Any]:
     parkhaus_dict: Final = asdict(obj=parkhaus)
     parkhaus_dict.pop("version")
+    parkhaus_dict["tarif_pro_stunde"] = str(parkhaus_dict["tarif_pro_stunde"])
     return parkhaus_dict
