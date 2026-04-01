@@ -1,4 +1,5 @@
 """DTO-Klasse für die Adresse."""
+
 from dataclasses import dataclass
 
 import strawberry
