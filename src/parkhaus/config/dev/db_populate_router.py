@@ -20,9 +20,9 @@ from typing import Annotated, Final
 from fastapi import APIRouter, Depends, Request
 from fastapi.responses import JSONResponse
 from loguru import logger
-from parkhaus.security import Role, RolesRequired, User
 
 from parkhaus.config.dev.db_populate import DbPopulateService, get_db_populate_service
+from parkhaus.security import Role, RolesRequired, User
 
 __all__ = ["router"]
 

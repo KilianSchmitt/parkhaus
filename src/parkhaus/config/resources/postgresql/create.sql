@@ -27,7 +27,7 @@ SET default_tablespace = parkhausspace;
 -- https://www.postgresql.org/docs/current/datatype-enum.html
 CREATE TYPE kundentyp AS ENUM ('PREMIUM', 'BASIS', 'ANWOHNER');
 
-CREATE TABLE IF NOT EXISTS patient (
+CREATE TABLE IF NOT EXISTS parkhaus (
     id            INTEGER GENERATED ALWAYS AS IDENTITY(START WITH 1000) PRIMARY KEY,
     version       INTEGER NOT NULL DEFAULT 0,
     name          TEXT NOT NULL,
