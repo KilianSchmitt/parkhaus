@@ -1,4 +1,5 @@
 """Pydantic-Modell für das Auto."""
+
 from datetime import datetime
 from typing import Annotated
 
@@ -11,8 +12,8 @@ from parkhaus.entity.kundentyp import Kundentyp
 class AutoModel(BaseModel):
     """Pydantic-Modell für das Auto."""
 
-    kennzeichen: Annotated[str, StringConstraints(
-        pattern=r"^[A-Z]{1,3}-[A-Z]{1,2}-\d{1,4}$")
+    kennzeichen: Annotated[
+        str, StringConstraints(pattern=r"^[A-Z]{1,3}-[A-Z]{1,2}-\d{1,4}$")
     ]
     """Das Kennzeichen im Format 'ABC-XY-1234'."""
 
