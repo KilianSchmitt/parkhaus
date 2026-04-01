@@ -30,8 +30,9 @@ class ParkhausService:
 
         with Session() as session:
             if (
-                parkhaus := self.repo.find_by_id(parkhaus_id=parkhaus_id,
-                                                 session=session)
+                parkhaus := self.repo.find_by_id(
+                    parkhaus_id=parkhaus_id, session=session
+                )
             ) is None:
                 message: Final = f"Kein Parkhaus mit der ID {parkhaus_id}"
                 logger.debug("NotFoundError: {}", message)
