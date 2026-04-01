@@ -1,39 +1,68 @@
-"""Minimal FastAPI App."""
-
+"""FastAPI App."""
 from contextlib import asynccontextmanager
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Final
 
-from fastapi import FastAPI
-from fastapi.middleware.gzip import GZipMiddleware
+from fastapi import FastAPI, Request, Response, status
 from loguru import logger
 
 from parkhaus.banner import banner
-from parkhaus.config import db_url
+from parkhaus.config import (
+    dev_db_populate,
+)
+from parkhaus.config.dev.db_populate import db_populate
+from parkhaus.config.dev.db_populate_router import router as db_populate_router
+from parkhaus.problem_details import create_problem_details
+from parkhaus.repository.session_factory import engine
+from parkhaus.router import (
+    hello_router,
+    parkhaus_router,
+)
+from parkhaus.service import NotFoundError
 
 if TYPE_CHECKING:
     from collections.abc import AsyncGenerator
 
+TEXT_PLAIN: Final = "text/plain"
 
+
+# --------------------------------------------------------------------------------------
+# S t a r t u p   u n d   S h u t d o w n
+# --------------------------------------------------------------------------------------
+# https://fastapi.tiangolo.com/advanced/events
+# pylint: disable=redefined-outer-name
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncGenerator[None]:  # noqa: RUF029
-    """Lifespan context manager for startup and shutdown."""
+    """DB neu laden, falls im dev-Modus, sowie Banner in der Konsole."""
+    if dev_db_populate:
+        db_populate()
     banner(app.routes)
     yield
     logger.info("Der Server wird heruntergefahren")
+    logger.info("Connection-Pool fuer die DB wird getrennt.")
+    engine.dispose()
 
 
 app: FastAPI = FastAPI(lifespan=lifespan)
 
-app.add_middleware(GZipMiddleware, minimum_size=500)
+# --------------------------------------------------------------------------------------
+# R E S T
+# --------------------------------------------------------------------------------------
+app.include_router(hello_router, prefix="/rest")
+app.include_router(parkhaus_router, prefix="/rest")
+
+if dev_db_populate:
+    app.include_router(db_populate_router, prefix="/dev")
 
 
-@app.get("/")
-def read_root():
-    """Root endpoint."""
-    return {"message": "Hello from parkhaus"}
+# --------------------------------------------------------------------------------------
+# E x c e p t i o n   H a n d l e r
+# --------------------------------------------------------------------------------------
+@app.exception_handler(NotFoundError)
+def not_found_error_handler(_request: Request, _err: NotFoundError) -> Response:
+    """Errorhandler für NotFoundError.
 
-
-@app.get("/health")
-def health_check():
-    """Health check endpoint."""
-    return {"status": "healthy", "db": db_url}
+    :param _err: NotFoundError aus der Geschäftslogik
+    :return: Response mit Statuscode 404
+    :rtype: Response
+    """
+    return create_problem_details(status_code=status.HTTP_404_NOT_FOUND)
