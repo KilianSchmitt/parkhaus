@@ -3,7 +3,7 @@
 from decimal import Decimal
 from typing import Annotated
 
-from pydantic import BaseModel, ConfigDict, StringConstraints
+from pydantic import BaseModel, ConfigDict, Field, StringConstraints
 
 from parkhaus.entity.parkhaus import Parkhaus
 from parkhaus.router.adresse_model import AdresseModel
@@ -16,10 +16,10 @@ class ParkhausModel(BaseModel):
     name: Annotated[str, StringConstraints(max_length=64)]
     """Der Name des Parkhauses."""
 
-    kapazitaet: Annotated[int, (ge=1)]
+    kapazitaet: Annotated[int, Field(ge=1)]
     """Die Anzahl der Parkplätze des Parkhauses."""
 
-    tarif_pro_stunde: Annotated[Decimal, StringConstraints(ge=0)]
+    tarif_pro_stunde: Annotated[Decimal, Field(ge=0)]
     """Der Tarif pro Stunde für das Parkhaus."""
 
     adresse: AdresseModel
