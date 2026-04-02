@@ -34,3 +34,22 @@ class ParkhausRepository:
 
         logger.debug("parkhaus={}", parkhaus)
         return parkhaus
+
+    def create(self, parkhaus: Parkhaus, session: Session) -> Parkhaus:
+        """Neues Parkhaus anlegen.
+
+        :param parkhaus: Das anzulegende Parkhaus.
+        :param session: Session für SQLAlchemy.
+        :return: Das angelegte Parkhaus mit ID.
+        :rtype: Parkhaus
+        """
+        logger.debug(
+            "parkhaus={}, parkhaus.adresse={}, parkhaus.autos={}",
+            parkhaus,
+            parkhaus.adresse,
+            parkhaus.autos,
+        )
+        session.add(parkhaus)
+        session.flush(objects=[parkhaus])
+        logger.debug("parkhaus_id={}", parkhaus.id)
+        return parkhaus
