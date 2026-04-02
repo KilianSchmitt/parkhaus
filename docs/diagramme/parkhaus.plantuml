@@ -1,0 +1,53 @@
+@startuml Parkhaus Aggregate-Root
+
+package "parkhaus.entity" <<Frame>> {
+
+    class Parkhaus <<Entity>> {
+        + id : int
+        + name : str
+        + kapazitaet : int
+        + tarif_pro_stunde : Decimal
+        + version : int
+        + erzeugt : datetime
+        + aktualisiert : datetime
+    }
+
+    class Adresse <<Entity>> {
+        + id : int
+        + plz : str
+        + ort : str
+        + strasse : str
+        + hausnummer : str
+        + parkhaus_id : int
+    }
+
+    class Auto <<Entity>> {
+        + id : int
+        + kennzeichen : str
+        + einfahrtszeit : datetime
+        + kundentyp : str
+        + parkhaus_id : int
+    }
+
+    enum Kundentyp <<Enum>> {
+        PREMIUM
+        BASIS
+        ANWOHNER
+    }
+
+    Parkhaus *-- "1" Adresse
+
+    Parkhaus *-- "0..*" Auto
+
+    Auto ..> Kundentyp
+}
+
+abstract class Base <<SQLAlchemy>> {
+}
+
+Parkhaus --|> Base
+Adresse --|> Base
+Auto --|> Base
+
+footer (c) Jonah Doll, Kilian Schmidt
+@enduml
