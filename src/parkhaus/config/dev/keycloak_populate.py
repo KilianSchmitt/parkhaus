@@ -71,30 +71,24 @@ class KeycloakPopulateService:
             return
         logger.debug("CSV-Datei: {}", csv_config_path)
 
-        with csv_config_path.open(encoding=utf8) as csv_file:
-            csv_reader = reader(csv_file, delimiter=";")
-            kopfzeile = True
-            for row in csv_reader:
-                if kopfzeile:
-                    kopfzeile = False
-                    continue
+        # with csv_config_path.open(encoding=utf8) as csv_file:
+        #     csv_reader = reader(csv_file, delimiter=";")
+        #     kopfzeile = True
+        #     for row in csv_reader:
+        #         if kopfzeile:
+        #             kopfzeile = False
+        #             continue
 
-                username = row[11]
-                if username == "admin":
-                    continue
-
-                email = row[3]
-                nachname = row[2]
-                user = User(
-                    username=username,
-                    email=email,
-                    nachname=nachname,
-                    vorname=nachname,
-                    roles=[Role.PATIENT],
-                    password="p",  # noqa: S106 # NOSONAR
-                )
-                self.user_service.create_user(user=user)
-        logger.debug("Alle User zu 'parkhaus.csv' neu angelegt")
+        #         username = row[1]
+        #         if username == "admin":
+        #             continue
+        #         user = User(
+        #             username=username,
+        #             roles=[Role.PATIENT],
+        #             password="p",  # noqa: S106 # NOSONAR
+        #         )
+        #         self.user_service.create_user(user=user)
+        # logger.debug("Alle User zu 'parkhaus.csv' neu angelegt")
 
 
 def get_keycloak_populate_service(
