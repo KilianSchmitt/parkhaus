@@ -6,14 +6,18 @@ from fastapi import FastAPI, Request, Response, status
 from loguru import logger
 
 from parkhaus.banner import banner
-from parkhaus.config import (
-    dev_db_populate,
-)
+from parkhaus.config import dev_db_populate, dev_keycloak_populate
 from parkhaus.config.dev.db_populate import db_populate
 from parkhaus.config.dev.db_populate_router import router as db_populate_router
+from parkhaus.config.dev.keycloak_populate import keycloak_populate
+from parkhaus.config.dev.keycloak_populate_router import (
+    router as keycloak_populate_router,
+)
 from parkhaus.problem_details import create_problem_details
 from parkhaus.repository.session_factory import engine
+from parkhaus.security import router as auth_router
 from parkhaus.router import (
+    health_router,
     hello_router,
     parkhaus_router,
 )
@@ -35,6 +39,8 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None]:  # noqa: RUF029
     """DB neu laden, falls im dev-Modus, sowie Banner in der Konsole."""
     if dev_db_populate:
         db_populate()
+    if dev_keycloak_populate:
+        keycloak_populate()
     banner(app.routes)
     yield
     logger.info("Der Server wird heruntergefahren")
@@ -49,9 +55,13 @@ app: FastAPI = FastAPI(lifespan=lifespan)
 # --------------------------------------------------------------------------------------
 app.include_router(hello_router, prefix="/rest")
 app.include_router(parkhaus_router, prefix="/rest")
+app.include_router(auth_router, prefix="/auth")
+app.include_router(health_router, prefix="/health")
 
 if dev_db_populate:
     app.include_router(db_populate_router, prefix="/dev")
+if dev_keycloak_populate:
+    app.include_router(keycloak_populate_router, prefix="/dev")
 
 
 # --------------------------------------------------------------------------------------
