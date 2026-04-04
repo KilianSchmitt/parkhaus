@@ -1,0 +1,17 @@
+@startuml Use Cases
+
+actor Gast
+actor Admin
+actor Patient
+
+rectangle patient {
+    Gast --> (Parkhaus suchen)
+    Admin --> (Parkhaus suchen)
+    Admin --> (Parkhaus aendern)
+    Admin --> (Parkhaus loeschen)
+    Patient --> (Parkhaus suchen)
+}
+
+footer (c) Jonah Doll, Kilian Schmidt
+
+@enduml

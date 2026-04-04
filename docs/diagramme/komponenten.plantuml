@@ -1,0 +1,61 @@
+@startuml Komponenten
+
+left to right direction
+
+actor RESTClient
+actor GraphQLClient
+
+node "parkhaus" {
+  [parkhaus_get_controller]
+  [parkhaus_write_controller]
+  [schema]
+
+  [parkhaus_read_service]
+  [parkhaus_write_service]
+
+  [parkhaus_repository]
+
+  [mailer]
+}
+
+
+cloud {
+    [SQLAlchemy]
+}
+
+cloud {
+    [smtp]
+}
+
+database "DB parkhaus" {
+    [Tabelle parkhaus]
+    [Tabelle adresse]
+    [Tabelle auto]
+}
+
+node {
+    [Mailserver]
+}
+
+RESTClient ~~> [parkhaus_get_controller]
+RESTClient ~~> [parkhaus_write_controller]
+GraphQLClient ~~> [schema]
+
+[parkhaus_get_controller] ..> [parkhaus_read_service]
+[parkhaus_write_controller] ..> [parkhaus_write_service]
+[schema] ..> [parkhaus_read_service]
+[schema] ..> [parkhaus_write_service]
+[parkhaus_read_service] ..> [parkhaus_repository]
+[parkhaus_write_service] ..> [parkhaus_repository]
+
+[parkhaus_repository] ~~> [SQLAlchemy]
+[SQLAlchemy] ~~> [Tabelle parkhaus]
+[SQLAlchemy] ~~> [Tabelle adresse]
+[SQLAlchemy] ~~> [Tabelle auto]
+
+[parkhaus_write_service] ..> [mailer]
+[mailer] ~~> [smtp]
+[smtp] ~~> [Mailserver]
+
+footer (c) Jonah Doll, Kilian Schmidt
+@enduml

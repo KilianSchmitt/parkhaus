@@ -1,0 +1,65 @@
+@startuml Schichtenarchitektur
+
+package parkhaus #DDDDDD {
+    package rest #FFFFFF {
+        [@router.get()\nget_by_id()\n\n@router.get()\nget()] as ParkhausGetController
+        [@router.post()\npost()\n\n@router.put()\nput()\n\n@router.delete()\ndelete_by_id()] as ParkhausWriteController
+        [@router.get()\nliveness()\n\n@router.get()\nreadiness()] as HealthController
+
+        [ParkhausGetController] -right[hidden]-> [ParkhausWriteController]
+    }
+
+    package service #FFFFFF {
+        [find_by_id()\nfind()] as ParkhausReadService
+        [create()\nupdate()\ndelete()] as ParkhausWriteService
+    }
+
+    [ParkhausGetController] --> [ParkhausReadService]
+    [ParkhausWriteController] --> [ParkhausWriteService]
+
+    package repository #FFFFFF {
+        [find_by_id()\nfind()\ncreate()\nupdate()\ndelete_by_id()\ncheck_db_connection()] as ParkhausRepository
+    }
+
+    [ParkhausReadService] --> [ParkhausRepository]
+    [ParkhausWriteService] --> [ParkhausRepository]
+    [HealthController] --> [ParkhausRepository]
+
+    package entity #FFFFFF {
+        [Parkhaus]
+        [Adresse]
+        [Auto]
+
+        [Parkhaus] -right[hidden]-> [Adresse]
+        [Adresse] -down[hidden]-> [Auto]
+    }
+
+    [ParkhausGetController] ..> [Parkhaus]
+    [ParkhausWriteController] ..> [Parkhaus]
+    [ParkhausReadService] .left.> [Parkhaus]
+    [ParkhausWriteService] ..> [Parkhaus]
+    [ParkhausRepository] ..> [Parkhaus]
+}
+
+RESTClient ~~> [ParkhausGetController]
+RESTClient ~~> [ParkhausWriteController]
+RESTClient ~~> [HealthController]
+
+cloud {
+    [SQLAlchemy\n(OR-Mapping)] as SQLAlchemy
+}
+
+[ParkhausRepository] ~down~> [SQLAlchemy]
+entity ~~> [SQLAlchemy]
+
+database "DB parkhaus" as db {
+    [Tabelle parkhaus]
+    [Tabelle adresse]
+    [Tabelle auto]
+}
+
+[SQLAlchemy] ~down~> db
+
+footer (c) Jonah Doll, Kilian Schmidt
+
+@enduml
