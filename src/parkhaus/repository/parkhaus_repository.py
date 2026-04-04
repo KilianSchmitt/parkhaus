@@ -62,7 +62,7 @@ class ParkhausRepository:
         """
         logger.debug("parkhaus_id={}", parkhaus_id)
 
-        if (parkhaus := self.find_by_id(parkhaus_id, session)) is not None:
+        if (parkhaus := self.find_by_id(parkhaus_id, session)) is None:
             return
         session.delete(parkhaus)
         logger.debug("ok")

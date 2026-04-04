@@ -37,3 +37,21 @@ def post(
         status_code=status.HTTP_201_CREATED,
         headers={"Location": f"{request.url}/{parkhaus_dto.id}"},
     )
+
+
+@parkhaus_write_router.delete("/{parkhaus_id}")
+def delete(
+    parkhaus_id: int,
+    service: Annotated[ParkhausWriteService, Depends(get_write_service)],
+) -> Response:
+    """DELETE-Request, um ein Parkhaus zu löschen.
+
+    :param parkhaus_id: Die ID des zu löschenden Parkhauses.
+    :param request: Injiziertes Request-Objekt von FastAPI mit der Request-URL
+    :param service: Injizierter Service für Geschäftslogik
+    :rtype: Response
+    """
+    logger.debug("parkhaus_id={}", parkhaus_id)
+    service.delete_by_id(parkhaus_id=parkhaus_id)
+
+    return Response(status_code=status.HTTP_204_NO_CONTENT)
