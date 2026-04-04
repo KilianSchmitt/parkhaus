@@ -1,5 +1,4 @@
 """FastAPI App."""
-
 from contextlib import asynccontextmanager
 from typing import TYPE_CHECKING, Final
 
@@ -16,13 +15,15 @@ from parkhaus.config.dev.keycloak_populate_router import (
 )
 from parkhaus.problem_details import create_problem_details
 from parkhaus.repository.session_factory import engine
-from parkhaus.security import router as auth_router
 from parkhaus.router import (
     health_router,
     hello_router,
     parkhaus_router,
+    parkhaus_write_router,
 )
+from parkhaus.security import router as auth_router
 from parkhaus.service import NotFoundError
+from parkhaus.service.exceptions import ParkingFacilityFullError
 
 if TYPE_CHECKING:
     from collections.abc import AsyncGenerator
@@ -56,6 +57,7 @@ app: FastAPI = FastAPI(lifespan=lifespan)
 # --------------------------------------------------------------------------------------
 app.include_router(hello_router, prefix="/rest")
 app.include_router(parkhaus_router, prefix="/rest")
+app.include_router(parkhaus_write_router, prefix="/rest")
 app.include_router(auth_router, prefix="/auth")
 app.include_router(health_router, prefix="/health")
 
@@ -77,3 +79,20 @@ def not_found_error_handler(_request: Request, _err: NotFoundError) -> Response:
     :rtype: Response
     """
     return create_problem_details(status_code=status.HTTP_404_NOT_FOUND)
+
+
+@app.exception_handler(ParkingFacilityFullError)
+def parking_facility_full_error_handler(
+    _request: Request,
+    err: ParkingFacilityFullError
+    ) -> Response:
+    """Errorhandler für ParkingFacilityFullError.
+
+    :param _err: ParkingFacilityFullError aus der Geschäftslogik
+    :return: Response mit Statuscode 409
+    :rtype: Response
+    """
+    return create_problem_details(
+        status_code=status.HTTP_409_CONFLICT,
+        detail=str(err)
+    )
