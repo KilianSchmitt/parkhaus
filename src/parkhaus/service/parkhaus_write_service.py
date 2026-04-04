@@ -51,3 +51,13 @@ class ParkhausWriteService:
 
         logger.debug("parkhaus_dto={}", parkhaus_dto)
         return parkhaus_dto
+
+    def delete_by_id(self, parkhaus_id: int) -> None:
+        """Ein Parkhaus anand der ID löschen.
+
+        :param parkhaus_id: Die ID des zu löschenden Parkhauses.
+        """
+        logger.debug("parkhaus_id={}", parkhaus_id)
+        with Session() as session:
+            self.repo.delete_by_id(parkhaus_id, session=session)
+            session.commit()
