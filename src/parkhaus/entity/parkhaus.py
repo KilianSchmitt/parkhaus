@@ -56,7 +56,7 @@ class Parkhaus(Base):
         default=None,
     )
 
-    __mapper_args__ = {"version_id_col": "version"}
+    __mapper_args__ = {"version_id_col": version}
 
     def set(self, parkhaus: Self) -> None:
         """Aktualisiert die Attribute des aktuellen Parkhaus-Objekts.
