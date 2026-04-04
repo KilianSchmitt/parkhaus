@@ -2,10 +2,11 @@
 
 from datetime import datetime
 
-from sqlalchemy import ForeignKey, Identity, String
+from sqlalchemy import Enum, ForeignKey, Identity
 from sqlalchemy.orm import Mapped, mapped_column
 
 from parkhaus.entity.base import Base
+from parkhaus.entity.kundentyp import Kundentyp
 
 
 class Auto(Base):
@@ -19,7 +20,9 @@ class Auto(Base):
     einfahrtszeit: Mapped[datetime]
     """Die Einfahrtszeit."""
 
-    kundentyp: Mapped[str] = mapped_column(String(10))
+    kundentyp: Mapped[str] = mapped_column(
+        Enum(Kundentyp, name="kundentyp", native_enum=True)
+    )
     """Der Kundentyp als String ('PREMIUM', 'BASIS', 'ANWOHNER')."""
 
     id: Mapped[int] = mapped_column(

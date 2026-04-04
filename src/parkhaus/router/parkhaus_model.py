@@ -1,13 +1,14 @@
 """Pydantic-Modell für das Parkhaus."""
 
 from decimal import Decimal
-from typing import Annotated
+from typing import Annotated, Final
 
+from loguru import logger
 from pydantic import BaseModel, ConfigDict, Field, StringConstraints, field_serializer
 
 from parkhaus.entity.parkhaus import Parkhaus
 from parkhaus.router.adresse_model import AdresseModel
-from parkhaus.router.auto_model import AutoModell
+from parkhaus.router.auto_model import AutoModel
 
 
 class ParkhausModel(BaseModel):
@@ -25,7 +26,7 @@ class ParkhausModel(BaseModel):
     adresse: AdresseModel
     """Die Adresse des Parkhauses."""
 
-    autos: list[AutoModell]
+    autos: list[AutoModel]
     """Die Liste der Autos, die im Parkhaus geparkt sind."""
 
     @field_serializer("tarif_pro_stunde")
@@ -47,7 +48,6 @@ class ParkhausModel(BaseModel):
                 },
                 "autos": [
                     {
-                        "kennzeichen": "KA-KS-1234",
                         "einfahrtszeit": "2026-03-30T12:00:00",
                         "kundentyp": "PREMIUM",
                     },
@@ -62,18 +62,12 @@ class ParkhausModel(BaseModel):
     )
 
     def to_parkhaus(self) -> Parkhaus:
-        """Konvertierung in ein Parkhaus-Objekt für SQLAlchemy.
-
-        :return: Parkhaus-Objekt für SQLAlchemy
-        :rtype: Parkhaus
-        """
-        parkhaus_dict = self.model_dump()
-        parkhaus_dict["id"] = None
-
-        adresse_model = parkhaus_dict.pop("adresse")
-        parkhaus_dict["adresse"] = adresse_model.to_adresse()
-
-        autos_model = parkhaus_dict.pop("autos")
-        parkhaus_dict["autos"] = [auto.to_auto() for auto in autos_model]
-
-        return Parkhaus(**parkhaus_dict)
+        """Konvertierung in ein Parkhaus-Objekt für SQLAlchemy."""
+        return Parkhaus(
+            id=None,
+            name=self.name,
+            kapazitaet=self.kapazitaet,
+            tarif_pro_stunde=self.tarif_pro_stunde,
+            adresse=self.adresse.to_adresse(),
+            autos=[auto.to_auto() for auto in self.autos]
+        )

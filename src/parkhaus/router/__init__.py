@@ -6,6 +6,7 @@ from parkhaus.router.health_router import liveness, readiness
 from parkhaus.router.health_router import router as health_router
 from parkhaus.router.hello_router import hello_router
 from parkhaus.router.parkhaus_router import get_by_id, parkhaus_router
+from parkhaus.router.parkhaus_write_router import parkhaus_write_router, post
 from parkhaus.router.shoutdown_router import router as shutdown_router
 from parkhaus.router.shoutdown_router import shutdown
 
@@ -15,6 +16,8 @@ __all__: Sequence[str] = [
     "hello_router",
     "liveness",
     "parkhaus_router",
+    "parkhaus_write_router",
+    "post",
     "readiness",
     "shutdown",
     "shutdown_router",
