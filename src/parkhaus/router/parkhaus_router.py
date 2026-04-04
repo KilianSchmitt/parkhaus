@@ -10,13 +10,16 @@ from loguru import logger
 from parkhaus.router.constants import ETAG, IF_NONE_MATCH, IF_NONE_MATCH_MIN_LEN
 from parkhaus.router.dependencies import get_service
 from parkhaus.service import ParkhausDTO, ParkhausService
+from parkhaus.repository import Pageable
+from parkhaus.repository.slice import Slice
+from parkhaus.router.page import Page
 
 __all__: list[str] = ["parkhaus_router"]
 
 parkhaus_router: Final = APIRouter(tags=["Lesen"])
 
 
-@parkhaus_router.get(path="/{parkhaus_id}")
+@parkhaus_router.get(path="/parkhaus/{parkhaus_id}")
 def get_by_id(
     parkhaus_id: int,
     request: Request,
@@ -48,6 +51,54 @@ def get_by_id(
         content=_parkhaus_to_dict(parkhaus),
         headers={ETAG: f'"{parkhaus.version}"'},
     )
+
+@parkhaus_router.get("/parkhaus")
+def get(
+        request: Request,
+        service: Annotated[ParkhausService, Depends(get_service)],
+) -> JSONResponse:
+    """Suche mit Query-Parameter.
+
+    :param request: Injiziertes Request-Objekt von FastAPI bzw. Starlette
+        mit Query-Parameter
+    :param service: Injizierter Service für Geschäftslogik
+    :return: Gefundene Parkhäuser als JSON-Response
+    :rtype: JSONResponse
+    :raises NotFoundError: Wenn kein Parkhaus gefunden wurde.
+    """
+
+    query_params: Final = request.query_params
+    logger.debug("{}", query_params)
+
+    page: Final = query_params.get("page")
+    size: Final = query_params.get("size")
+    pageable: Final = Pageable.create(number=page, size=size)
+
+    suchparameter = dict(query_params)
+    if "page" in query_params:
+        del suchparameter["page"]
+    if "size" in query_params:
+        del suchparameter["size"]
+
+    parkhaus_slice: Final = service.find(suchparameter=suchparameter, pageable=pageable)
+
+    result: Final = _parkhaus_slice_to_page(parkhaus_slice, pageable)
+    logger.debug("result={}", result)
+    return JSONResponse(content=result)
+
+def _parkhaus_slice_to_page(
+    parkhaus_slice: Slice[ParkhausDTO],
+    pageable: Pageable,
+) -> dict[str, Any]:
+    parkhaus_dict: Final = tuple(
+        _parkhaus_to_dict(parkhaus) for parkhaus in parkhaus_slice.content
+    )
+    page: Final = Page.create(
+        content=parkhaus_dict,
+        pageable=pageable,
+        total_elements=parkhaus_slice.total_elements,
+    )
+    return asdict(obj=page)
 
 
 def _parkhaus_to_dict(parkhaus: ParkhausDTO) -> dict[str, Any]:
