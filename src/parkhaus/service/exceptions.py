@@ -19,6 +19,7 @@ from collections.abc import Mapping
 
 __all__ = [
     "NotFoundError",
+    "ParkingFacilityFullError"
 ]
 
 
@@ -38,3 +39,21 @@ class NotFoundError(Exception):
         super().__init__("Not Found")
         self.parkhaus_id = parkhaus_id
         self.suchparameter = suchparameter
+
+
+class ParkingFacilityFullError(Exception):
+    """Exception, falls das Parkhaus voll ist."""
+
+    def __init__(
+        self,
+        parkhaus_id: int | None = None,
+        kapazitaet: int | None = None
+    ) -> None:
+        """Initialisierung von ParkingFacilityFullError mit ID und Kapazität.
+
+        :param parkhaus_id: parkhaus-ID, die voll ist
+        :param kapazitaet: Kapazität des Parkhauses
+        """
+        super().__init__("Parking Facility is full.")
+        self.parkhaus_id = parkhaus_id
+        self.kapazitaet = kapazitaet
