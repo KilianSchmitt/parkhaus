@@ -89,16 +89,16 @@ def test_get_by_id_etag(parkhaus_id: int, if_none_match: str) -> None:
 
 @mark.rest
 @mark.get_request
-@mark.parametrize("patient_id,if_none_match", [(5, "xxx"), (6, "xxx")])
-def test_get_by_id_etag_invalid(patient_id: int, if_none_match: str) -> None:
+def test_get_by_id_etag_invalid() -> None:
     # arrange
+    parkhaus_id: Final = 4
     headers = {
-        "If-None-Match": if_none_match,
+        "If-None-Match": "xxx",
     }
 
     # act
     response: Final = get(
-        f"{rest_url}/{patient_id}",
+        f"{rest_url}/{parkhaus_id}",
         headers=headers,
         verify=ctx,
     )
@@ -109,4 +109,4 @@ def test_get_by_id_etag_invalid(patient_id: int, if_none_match: str) -> None:
     assert isinstance(response_body, dict)
     id_actual: Final = response_body.get("id")
     assert id_actual is not None
-    assert id_actual == patient_id
+    assert id_actual == parkhaus_id
