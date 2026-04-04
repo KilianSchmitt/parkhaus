@@ -53,3 +53,16 @@ class ParkhausRepository:
         session.flush(objects=[parkhaus])
         logger.debug("parkhaus_id={}", parkhaus.id)
         return parkhaus
+
+    def delete_by_id(self, parkhaus_id: int, session: Session) -> None:
+        """Löschen eines Parkhauses mit der ID.
+
+        :param parkhaus_id: Die ID des zu löschenden Parkhauses.
+        :param session: Session für SQLAlchemy.
+        """
+        logger.debug("parkhaus_id={}", parkhaus_id)
+
+        if (parkhaus := self.find_by_id(parkhaus_id, session)) is not None:
+            return
+        session.delete(parkhaus)
+        logger.debug("ok")
