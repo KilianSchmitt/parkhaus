@@ -1,0 +1,20 @@
+meta {
+  name: find parkhaus
+  type: http
+  seq: 1
+}
+
+get {
+  url: https://localhost:8080/parkhaus?name=Schloss
+  body: none
+  auth: inherit
+}
+
+params:query {
+  name: Schloss
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
