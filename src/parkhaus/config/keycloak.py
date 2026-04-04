@@ -16,6 +16,7 @@
 """Konfiguration für _python-keycloak_ zum Zugriff auf _Keycloak_."""
 
 from dataclasses import dataclass
+import os
 from typing import Final
 
 from loguru import logger
@@ -59,7 +60,7 @@ _keycloak_management_url: Final = f"{_schema}://{_host}:{_management_port}"
 
 _realm: Final[str] = _keycloak_toml.get("realm", "python")
 _client_id: Final[str] = _keycloak_toml.get("client-id", "python-client")
-_client_secret: Final[str] = _keycloak_toml.get("client-secret")
+_client_secret: Final[str] = os.getenv("CLIENT_SECRET")
 
 keycloak_config = KeycloakConfig(
     server_url=_url,

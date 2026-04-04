@@ -21,10 +21,12 @@ from pathlib import Path
 from tomllib import load
 from typing import Any, Final
 
+from dotenv import load_dotenv
 from loguru import logger
 
 __all__ = ["app_config", "resources_path"]
 
+load_dotenv()
 
 resources_path: Final[str] = "parkhaus.config.resources"
 
