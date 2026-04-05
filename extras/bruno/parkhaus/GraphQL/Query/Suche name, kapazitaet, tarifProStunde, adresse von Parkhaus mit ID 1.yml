@@ -1,0 +1,32 @@
+info:
+  name: Suche name, kapazitaet, tarifProStunde, adresse von Parkhaus mit ID 1
+  type: graphql
+  seq: 1
+
+graphql:
+  method: POST
+  url: "{{graphqlUrl}}"
+  body:
+    query: |-
+      query ($parkhausId: ID! = "1") {
+        parkhaus(parkhausId: $parkhausId) {
+          id
+          version
+          name
+          kapazitaet
+          tarifProStunde
+          adresse {
+            plz
+            ort
+            strasse
+            hausnummer
+          }
+        }
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
