@@ -22,8 +22,11 @@ from parkhaus.router import (
     parkhaus_write_router,
 )
 from parkhaus.security import router as auth_router
-from parkhaus.service import NotFoundError
-from parkhaus.service.exceptions import ParkingFacilityFullError
+from parkhaus.service import (
+    NotFoundError,
+    ParkingFacilityFullError,
+    VersionOutdatedError,
+)
 
 if TYPE_CHECKING:
     from collections.abc import AsyncGenerator
@@ -96,3 +99,21 @@ def parking_facility_full_error_handler(
         status_code=status.HTTP_409_CONFLICT,
         detail=str(err)
     )
+
+
+@app.exception_handler(VersionOutdatedError)
+def version_outdated_error_handler(
+    _request: Request,
+    err: VersionOutdatedError,
+) -> Response:
+    """Exception-Handling für VersionOutdatedError.
+
+    :param _err: Exception, falls die Versionsnummer zum Aktualisieren veraltet ist
+    :return: Response mit Statuscode 412
+    :rtype: Response
+    """
+    return create_problem_details(
+        status_code=status.HTTP_412_PRECONDITION_FAILED,
+        detail=str(err),
+    )
+
