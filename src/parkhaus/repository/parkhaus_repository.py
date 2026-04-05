@@ -1,4 +1,5 @@
 """Repository für persistente Parkhaus-Daten."""
+from winerror import CO_S_FIRST
 
 from typing import Final
 
@@ -66,3 +67,21 @@ class ParkhausRepository:
             return
         session.delete(parkhaus)
         logger.debug("ok")
+
+    def update(self, parkhaus: Parkhaus, session: Session) -> Parkhaus | None:
+        """Aktualisieren eines bestehenden Parkhauses.
+
+        :param parkhaus: Das zu aktualisierende Parkhaus.
+        :param session: Session für SQLAlchemy.
+        :return: Das aktualisierte Parkhaus.
+        :rtype: Parkhaus
+        """
+        logger.debug("parkhaus={}", parkhaus)
+
+        if (
+            parkhaus_db := self.find_by_id(parkhaus.id, session)
+        ) is None:
+            return None
+
+        logger.debug("parkhaus_db={}", parkhaus_db)
+        return parkhaus_db
