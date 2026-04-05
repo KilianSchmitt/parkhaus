@@ -15,8 +15,8 @@
 
 """Konfiguration für _python-keycloak_ zum Zugriff auf _Keycloak_."""
 
-from dataclasses import dataclass
 import os
+from dataclasses import dataclass
 from typing import Final
 
 from loguru import logger
