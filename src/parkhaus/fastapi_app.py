@@ -13,6 +13,7 @@ from parkhaus.config.dev.keycloak_populate import keycloak_populate
 from parkhaus.config.dev.keycloak_populate_router import (
     router as keycloak_populate_router,
 )
+from parkhaus.graphql_api import graphql_router
 from parkhaus.problem_details import create_problem_details
 from parkhaus.repository.session_factory import engine
 from parkhaus.router import (
@@ -69,6 +70,10 @@ if dev_db_populate:
 if dev_keycloak_populate:
     app.include_router(keycloak_populate_router, prefix="/dev")
 
+# --------------------------------------------------------------------------------------
+# G r a p h Q L
+# --------------------------------------------------------------------------------------
+app.include_router(graphql_router, prefix="/graphql")
 
 # --------------------------------------------------------------------------------------
 # E x c e p t i o n   H a n d l e r
