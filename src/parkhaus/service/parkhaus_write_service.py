@@ -1,4 +1,5 @@
 """Geschäftslogik zum Schreiben von Parkhaus-Daten."""
+import re
 from typing import Final
 
 from loguru import logger
@@ -6,7 +7,8 @@ from loguru import logger
 from parkhaus.entity.parkhaus import Parkhaus
 from parkhaus.repository.parkhaus_repository import ParkhausRepository
 from parkhaus.repository.session_factory import Session
-from parkhaus.service.exceptions import ParkingFacilityFullError
+from parkhaus.service import NotFoundError
+from parkhaus.service.exceptions import ParkingFacilityFullError, VersionOutdatedError
 from parkhaus.service.parkhaus_dto import ParkhausDTO
 
 __all__: list[str] = ["ParkhausWriteService"]
@@ -61,3 +63,38 @@ class ParkhausWriteService:
         with Session() as session:
             self.repo.delete_by_id(parkhaus_id, session=session)
             session.commit()
+
+    def update(self, parkhaus: Parkhaus, parkhaus_id: int, version: int) -> ParkhausDTO:
+        """Ein bestehendes Parkhaus aktualisieren.
+
+        :param parkhaus: Das zu aktualisierende Parkhaus.
+        :return: Das aktualisierte Parkhaus als DTO oder None.
+        """
+        logger.debug("parkhaus_id={}, version={}, {}", parkhaus_id, version, parkhaus)
+        with Session() as session:
+            if (
+                parkhaus_db := self.repo.find_by_id(
+                    parkhaus_id=parkhaus_id, session=session
+                )
+            ) is None:
+                raise NotFoundError(parkhaus_id)
+            if parkhaus_db.version != version:
+                raise VersionOutdatedError(version=version)
+
+            if parkhaus.kapazitaet < len(parkhaus_db.autos):
+                raise ParkingFacilityFullError(
+                    parkhaus_id=parkhaus.id,
+                    kapazitaet=parkhaus.kapazitaet
+                )
+
+            parkhaus_db.set(parkhaus)
+            if (
+                parkhaus_updated := self.repo.update(parkhaus_db, session=session)
+            ) is None:
+                raise NotFoundError(parkhaus_id)
+            parkhaus_dto: Final = ParkhausDTO(parkhaus_updated)
+            logger.debug("{}", parkhaus_dto)
+
+            session.commit()
+            parkhaus_dto.version += 1
+            return parkhaus_dto
