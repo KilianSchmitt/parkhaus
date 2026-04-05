@@ -19,7 +19,8 @@ from collections.abc import Mapping
 
 __all__ = [
     "NotFoundError",
-    "ParkingFacilityFullError"
+    "ParkingFacilityFullError",
+    "VersionOutdatedError"
 ]
 
 
@@ -57,3 +58,15 @@ class ParkingFacilityFullError(Exception):
         super().__init__("Parking Facility is full.")
         self.parkhaus_id = parkhaus_id
         self.kapazitaet = kapazitaet
+
+
+class VersionOutdatedError(Exception):
+    """Exception, falls die Versionsnummer beim Aktualisieren veraltet ist."""
+
+    def __init__(self, version: int) -> None:
+        """Initialisierung von VersionOutdatedError mit veralteter Versionsnummer.
+
+        :param version: Veraltete Versionsnummer
+        """
+        super().__init__(f"Veraltete Version: {version}")
+        self.version = version
