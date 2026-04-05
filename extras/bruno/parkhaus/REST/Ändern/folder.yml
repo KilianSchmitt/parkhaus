@@ -1,0 +1,7 @@
+info:
+  name: Ändern
+  type: folder
+  seq: 6
+
+request:
+  auth: inherit

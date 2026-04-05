@@ -1,0 +1,29 @@
+info:
+  name: Parkhaus 1 mit ungültigen Daten ändern
+  type: http
+  seq: 5
+
+http:
+  method: PUT
+  url: "{{restUrl}}/:id"
+  headers:
+    - name: If-Match
+      value: '"0"'
+  params:
+    - name: id
+      value: "1"
+      type: path
+  body:
+    type: json
+    data: |-
+      {
+        "name": "Parkhaus am Schloss",
+        "kapazitaet": 250
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

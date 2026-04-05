@@ -1,0 +1,27 @@
+info:
+  name: Parkhaus 1 ohne Versionsnummer ändern
+  type: http
+  seq: 2
+
+http:
+  method: PUT
+  url: "{{restUrl}}/:id"
+  params:
+    - name: id
+      value: "1"
+      type: path
+  body:
+    type: json
+    data: |-
+      {
+        "name": "Parkhaus am Schloss",
+        "kapazitaet": 250,
+        "tarif_pro_stunde": "15.00"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
