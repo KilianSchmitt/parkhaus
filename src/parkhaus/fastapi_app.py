@@ -21,6 +21,7 @@ from parkhaus.router import (
     hello_router,
     parkhaus_router,
     parkhaus_write_router,
+    shutdown_router,
 )
 from parkhaus.security import router as auth_router
 from parkhaus.service import (
@@ -64,6 +65,7 @@ app.include_router(parkhaus_router, prefix="/rest")
 app.include_router(parkhaus_write_router, prefix="/rest")
 app.include_router(auth_router, prefix="/auth")
 app.include_router(health_router, prefix="/health")
+app.include_router(shutdown_router, prefix="/admin")
 
 if dev_db_populate:
     app.include_router(db_populate_router, prefix="/dev")
