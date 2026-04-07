@@ -5,10 +5,14 @@ info:
 
 http:
   method: GET
-  url: "{{restUrl}}/1"
+  url: "{{restUrl}}/:id"
   headers:
     - name: Accept
       value: application/json
+  params:
+    - name: id
+      value: "1"
+      type: path
   auth: inherit
 
 settings:
