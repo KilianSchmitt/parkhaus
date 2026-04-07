@@ -1,5 +1,4 @@
 """Geschäftslogik zum Schreiben von Parkhaus-Daten."""
-import re
 from typing import Final
 
 from loguru import logger
@@ -9,6 +8,7 @@ from parkhaus.repository.parkhaus_repository import ParkhausRepository
 from parkhaus.repository.session_factory import Session
 from parkhaus.service import NotFoundError
 from parkhaus.service.exceptions import ParkingFacilityFullError, VersionOutdatedError
+from parkhaus.service.mailer import send_mail
 from parkhaus.service.parkhaus_dto import ParkhausDTO
 
 __all__: list[str] = ["ParkhausWriteService"]
@@ -51,6 +51,7 @@ class ParkhausWriteService:
             parkhaus_dto: Final = ParkhausDTO(parkhaus_db)
             session.commit()
 
+        send_mail(parkhaus_dto=parkhaus_dto)
         logger.debug("parkhaus_dto={}", parkhaus_dto)
         return parkhaus_dto
 
