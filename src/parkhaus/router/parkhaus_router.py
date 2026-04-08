@@ -75,10 +75,8 @@ def get(
     pageable: Final = Pageable.create(number=page, size=size)
 
     suchparameter = dict(query_params)
-    if "page" in query_params:
-        del suchparameter["page"]
-    if "size" in query_params:
-        del suchparameter["size"]
+    suchparameter.pop("page", None)
+    suchparameter.pop("size", None)
 
     parkhaus_slice: Final = service.find(suchparameter=suchparameter, pageable=pageable)
 
