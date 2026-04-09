@@ -19,7 +19,7 @@ __all__: list[str] = ["parkhaus_router"]
 parkhaus_router: Final = APIRouter(tags=["Lesen"])
 
 
-@parkhaus_router.get(path="/parkhaus/{parkhaus_id}")
+@parkhaus_router.get(path="/{parkhaus_id}")
 def get_by_id(
     parkhaus_id: int,
     request: Request,
@@ -52,7 +52,7 @@ def get_by_id(
         headers={ETAG: f'"{parkhaus.version}"'},
     )
 
-@parkhaus_router.get("/parkhaus")
+@parkhaus_router.get("")
 def get(
         request: Request,
         service: Annotated[ParkhausService, Depends(get_service)],
