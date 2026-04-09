@@ -1,10 +1,12 @@
 info:
   name: REST
   type: folder
-  seq: 1
+  seq: 2
 
 request:
   auth: inherit
   variables:
     - name: restUrl
       value: "{{baseUrl}}/rest"
+    - name: restParkhaueserUrl
+      value: "{{restUrl}}/parkhaeuser"
