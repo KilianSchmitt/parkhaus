@@ -2,7 +2,7 @@
 
 from typing import Final
 
-from common_test import ctx, login, rest_url
+from common_test import ctx, login, rest_parkhaeuser_url
 from httpx import delete
 from pytest import mark
 
@@ -15,7 +15,7 @@ def test_delete() -> None:
 
     # act
     response: Final = delete(
-        f"{rest_url}/{patient_id}",
+        f"{rest_parkhaeuser_url}/{patient_id}",
         verify=ctx,
     )
 
@@ -31,7 +31,7 @@ def test_delete_not_found() -> None:
 
     # act
     response: Final = delete(
-        f"{rest_url}/{patient_id}",
+        f"{rest_parkhaeuser_url}/{patient_id}",
         verify=ctx,
     )
 
