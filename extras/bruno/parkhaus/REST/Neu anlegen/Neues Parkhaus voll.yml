@@ -5,7 +5,7 @@ info:
 
 http:
   method: POST
-  url: "{{restUrl}}"
+  url: "{{restParkhaeuserUrl}}"
   body:
     type: json
     data: |-
