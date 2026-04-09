@@ -3,7 +3,7 @@ from http import HTTPStatus
 from re import search
 from typing import Final
 
-from common_test import ctx, rest_url
+from common_test import ctx, rest_parkhaeuser_url
 from httpx import post
 from pytest import mark
 
@@ -34,7 +34,7 @@ def test_post() -> None:
 
     # act
     response: Final = post(
-        rest_url,
+        rest_parkhaeuser_url,
         json=neues_parkhaus,
         headers=headers,
         verify=ctx,
@@ -68,7 +68,7 @@ def test_post_invalid() -> None:
 
     # act
     response: Final = post(
-        rest_url,
+        rest_parkhaeuser_url,
         json=neues_parkhaus_invalid,
         headers=headers,
         verify=ctx,
@@ -111,7 +111,7 @@ def test_post_parkhaus_voll() -> None:
 
     # act
     response: Final = post(
-        rest_url,
+        rest_parkhaeuser_url,
         json=neues_parkhaus_voll,
         headers=headers,
         verify=ctx,
@@ -131,7 +131,7 @@ def test_post_invalid_json() -> None:
 
     # act
     response: Final = post(
-        rest_url,
+        rest_parkhaeuser_url,
         content=json_invalid,
         headers=headers,
         verify=ctx,
