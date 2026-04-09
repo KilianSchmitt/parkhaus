@@ -61,8 +61,8 @@ app: FastAPI = FastAPI(lifespan=lifespan)
 # R E S T
 # --------------------------------------------------------------------------------------
 app.include_router(hello_router, prefix="/rest")
-app.include_router(parkhaus_router, prefix="/rest")
-app.include_router(parkhaus_write_router, prefix="/rest")
+app.include_router(parkhaus_router, prefix="/rest/parkhaeuser")
+app.include_router(parkhaus_write_router, prefix="/rest/parkhaeuser")
 app.include_router(auth_router, prefix="/auth")
 app.include_router(health_router, prefix="/health")
 app.include_router(shutdown_router, prefix="/admin")
