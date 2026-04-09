@@ -3,7 +3,7 @@
 from http import HTTPStatus
 from typing import Final
 
-from common_test import ctx, rest_url
+from common_test import ctx, rest_parkhaeuser_url
 from httpx import get
 from pytest import mark
 
@@ -16,7 +16,7 @@ def test_get_by_id(parkhaus_id: int) -> None:
 
     # act
     response: Final = get(
-        f"{rest_url}/{parkhaus_id}",
+        f"{rest_parkhaeuser_url}/{parkhaus_id}",
         verify=ctx,
     )
 
@@ -37,7 +37,7 @@ def test_get_by_id_not_found(parkhaus_id: int) -> None:
 
     # act
     response: Final = get(
-        f"{rest_url}/{parkhaus_id}",
+        f"{rest_parkhaeuser_url}/{parkhaus_id}",
         verify=ctx,
     )
 
@@ -53,7 +53,7 @@ def test_get_by_id_parkhaus() -> None:
 
     # act
     response: Final = get(
-        f"{rest_url}/{parkhaus_id}",
+        f"{rest_parkhaeuser_url}/{parkhaus_id}",
         verify=ctx,
     )
 
@@ -77,7 +77,7 @@ def test_get_by_id_etag(parkhaus_id: int, if_none_match: str) -> None:
 
     # act
     response: Final = get(
-        f"{rest_url}/{parkhaus_id}",
+        f"{rest_parkhaeuser_url}/{parkhaus_id}",
         headers=headers,
         verify=ctx,
     )
@@ -98,7 +98,7 @@ def test_get_by_id_etag_invalid() -> None:
 
     # act
     response: Final = get(
-        f"{rest_url}/{parkhaus_id}",
+        f"{rest_parkhaeuser_url}/{parkhaus_id}",
         headers=headers,
         verify=ctx,
     )
