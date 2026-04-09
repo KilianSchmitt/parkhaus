@@ -3,7 +3,7 @@
 from http import HTTPStatus
 from typing import Final
 
-from common_test import ctx, login, rest_url
+from common_test import ctx, login, rest_parkhaeuser_url
 from httpx import put
 from pytest import mark
 
@@ -25,7 +25,7 @@ def test_put() -> None:
 
     # act
     response: Final = put(
-        f"{rest_url}/{parkhaus_id}",
+        f"{rest_parkhaeuser_url}/{parkhaus_id}",
         json=geaendertes_parkhaus,
         headers=headers,
         verify=ctx,
@@ -51,7 +51,7 @@ def test_put_invalid() -> None:
 
     # act
     response: Final = put(
-        f"{rest_url}/{parkhaus_id}",
+        f"{rest_parkhaeuser_url}/{parkhaus_id}",
         json=geaendertes_parkhaus_invalid,
         headers=headers,
         verify=ctx,
@@ -81,7 +81,7 @@ def test_put_nicht_vorhanden() -> None:
 
     # act
     response: Final = put(
-        f"{rest_url}/{parkhaus_id}",
+        f"{rest_parkhaeuser_url}/{parkhaus_id}",
         json=geaendertes_parkhaus,
         headers=headers,
         verify=ctx,
@@ -104,14 +104,14 @@ def test_put_ohne_versionsnr() -> None:
 
     # act
     response: Final = put(
-        f"{rest_url}/{parkhaus_id}",
+        f"{rest_parkhaeuser_url}/{parkhaus_id}",
         json=geaendertes_parkhaus,
         verify=ctx,
     )
 
     # act
     response: Final = put(
-        f"{rest_url}/{parkhaus_id}",
+        f"{rest_parkhaeuser_url}/{parkhaus_id}",
         json=geaendertes_parkhaus,
         verify=ctx,
     )
@@ -137,7 +137,7 @@ def test_put_alte_versionsnr() -> None:
 
     # act
     response: Final = put(
-        f"{rest_url}/{parkhaus_id}",
+        f"{rest_parkhaeuser_url}/{parkhaus_id}",
         json=geaendertes_parkhaus,
         headers=headers,
         verify=ctx,
@@ -164,7 +164,7 @@ def test_put_ungueltige_versionsnr() -> None:
 
     # act
     response: Final = put(
-        f"{rest_url}/{parkhaus_id}",
+        f"{rest_parkhaeuser_url}/{parkhaus_id}",
         json=geaendertes_parkhaus,
         headers=headers,
         verify=ctx,
@@ -192,7 +192,7 @@ def test_put_versionsnr_ohne_quotes() -> None:
 
     # act
     response: Final = put(
-        f"{rest_url}/{parkhaus_id}",
+        f"{rest_parkhaeuser_url}/{parkhaus_id}",
         json=geaendertes_parkhaus,
         headers=headers,
         verify=ctx,
