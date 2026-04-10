@@ -24,6 +24,7 @@ from parkhaus.router import (
     shutdown_router,
 )
 from parkhaus.security import router as auth_router
+from parkhaus.security.exceptions import AuthorizationError
 from parkhaus.service import (
     NotFoundError,
     ParkingFacilityFullError,
@@ -80,6 +81,17 @@ app.include_router(graphql_router, prefix="/graphql")
 # --------------------------------------------------------------------------------------
 # E x c e p t i o n   H a n d l e r
 # --------------------------------------------------------------------------------------
+@app.exception_handler(AuthorizationError)
+def authorization_error_handler(_request: Request, _err: AuthorizationError) -> Response:
+    """Errorhandler für AuthorizationError.
+
+    :param _err: AuthorizationError aus der Security-Schicht
+    :return: Response mit Statuscode 401
+    :rtype: Response
+    """
+    return create_problem_details(status_code=status.HTTP_403_FORBIDDEN)
+
+
 @app.exception_handler(NotFoundError)
 def not_found_error_handler(_request: Request, _err: NotFoundError) -> Response:
     """Errorhandler für NotFoundError.
