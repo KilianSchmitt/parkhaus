@@ -14,7 +14,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """Modul für den Zugriffsschutz."""
 
-from parkhaus.security.auth_router import router, token
 from parkhaus.security.exceptions import AuthorizationError, LoginError
 from parkhaus.security.response_headers import set_response_headers
 from parkhaus.security.role import Role
@@ -31,7 +30,5 @@ __all__ = [
     "TokenService",
     "User",
     "UserService",
-    "router",
     "set_response_headers",
-    "token",
 ]
