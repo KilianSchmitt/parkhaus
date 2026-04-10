@@ -9,6 +9,7 @@ from loguru import logger
 
 from parkhaus.router.constants import ETAG, IF_NONE_MATCH, IF_NONE_MATCH_MIN_LEN
 from parkhaus.router.dependencies import get_service
+from parkhaus.security import RolesRequired, Role
 from parkhaus.service import ParkhausDTO, ParkhausService
 from parkhaus.repository import Pageable
 from parkhaus.repository.slice import Slice
@@ -19,7 +20,10 @@ __all__: list[str] = ["parkhaus_router"]
 parkhaus_router: Final = APIRouter(tags=["Lesen"])
 
 
-@parkhaus_router.get(path="/{parkhaus_id}")
+@parkhaus_router.get(
+    path="/{parkhaus_id}",
+    dependencies=[Depends(RolesRequired([Role.ADMIN, Role.PATIENT]))]
+)
 def get_by_id(
     parkhaus_id: int,
     request: Request,
