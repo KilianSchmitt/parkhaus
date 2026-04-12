@@ -1,14 +1,15 @@
 """Repository für persistente Parkhaus-Daten."""
 
+from collections.abc import Mapping
 from typing import Final
 
 from loguru import logger
 from sqlalchemy import select
 from sqlalchemy.orm import Session, joinedload
+
+from parkhaus.entity.parkhaus import Parkhaus
 from parkhaus.repository.pageable import Pageable
 from parkhaus.repository.slice import Slice
-from parkhaus.entity.parkhaus import Parkhaus
-from collections.abc import Mapping
 
 
 class ParkhausRepository:
