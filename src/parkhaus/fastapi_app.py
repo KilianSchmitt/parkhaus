@@ -76,6 +76,7 @@ if dev_keycloak_populate:
 # --------------------------------------------------------------------------------------
 app.include_router(graphql_router, prefix="/graphql")
 
+
 # --------------------------------------------------------------------------------------
 # E x c e p t i o n   H a n d l e r
 # --------------------------------------------------------------------------------------
@@ -133,4 +134,3 @@ def version_outdated_error_handler(
         status_code=status.HTTP_412_PRECONDITION_FAILED,
         detail=str(err),
     )
-
