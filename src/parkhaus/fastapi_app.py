@@ -81,7 +81,10 @@ app.include_router(graphql_router, prefix="/graphql")
 # E x c e p t i o n   H a n d l e r
 # --------------------------------------------------------------------------------------
 @app.exception_handler(AuthorizationError)
-def authorization_error_handler(_request: Request, _err: AuthorizationError) -> Response:
+def authorization_error_handler(
+    _request: Request,
+    _err: AuthorizationError
+) -> Response:
     """Errorhandler für AuthorizationError.
 
     :param _err: AuthorizationError aus der Security-Schicht
@@ -92,7 +95,10 @@ def authorization_error_handler(_request: Request, _err: AuthorizationError) -> 
 
 
 @app.exception_handler(NotFoundError)
-def not_found_error_handler(_request: Request, _err: NotFoundError) -> Response:
+def not_found_error_handler(
+    _request: Request,
+    _err: NotFoundError
+) -> Response:
     """Errorhandler für NotFoundError.
 
     :param _err: NotFoundError aus der Geschäftslogik

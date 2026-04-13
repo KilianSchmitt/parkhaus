@@ -138,4 +138,7 @@ def test_post_invalid_json() -> None:
     )
 
     # assert
-    assert response.status_code == HTTPStatus.BAD_REQUEST or response.status_code == HTTPStatus.UNPROCESSABLE_ENTITY
+    assert response.status_code in {
+        HTTPStatus.BAD_REQUEST,
+        HTTPStatus.UNPROCESSABLE_ENTITY
+    }

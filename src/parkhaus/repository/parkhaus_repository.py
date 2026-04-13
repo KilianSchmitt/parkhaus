@@ -108,7 +108,11 @@ class ParkhausRepository:
 
         for key, value in suchparameter.items():
             if key == "name":
-                return self._find_by_name(teil=value, pageable=pageable, session=session)
+                return self._find_by_name(
+                    teil=value,
+                    pageable=pageable,
+                    session=session
+                )
         return Slice(content=(), total_elements=0)
 
     def _find_all(self, pageable: Pageable, session: Session) -> Slice[Parkhaus]:
@@ -121,7 +125,12 @@ class ParkhausRepository:
         parkhaeuser: Final = tuple(session.scalars(statement).unique())
         return Slice(content=parkhaeuser, total_elements=len(parkhaeuser))
 
-    def _find_by_name(self, teil: str, pageable: Pageable, session: Session) -> Slice[Parkhaus]:
+    def _find_by_name(
+        self,
+        teil: str,
+        pageable: Pageable,
+        session: Session
+    ) -> Slice[Parkhaus]:
         statement: Final = (
             select(Parkhaus)
             .options(joinedload(Parkhaus.adresse))
