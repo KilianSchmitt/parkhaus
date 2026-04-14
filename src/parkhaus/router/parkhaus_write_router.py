@@ -10,6 +10,7 @@ from parkhaus.router.constants import IF_MATCH, IF_MATCH_MIN_LEN
 from parkhaus.router.dependencies import get_write_service
 from parkhaus.router.parkhaus_model import ParkhausModel
 from parkhaus.router.parkhaus_update_model import ParkhausUpdateModel
+from parkhaus.security import Role, RolesRequired
 from parkhaus.service.parkhaus_write_service import ParkhausWriteService
 
 __all__ = ["parkhaus_write_router"]
@@ -18,17 +19,20 @@ __all__ = ["parkhaus_write_router"]
 parkhaus_write_router: Final = APIRouter(tags=["Schreiben"])
 
 
-@parkhaus_write_router.post("")
+@parkhaus_write_router.post(
+    "",
+    dependencies=[Depends(RolesRequired([Role.ADMIN]))],
+)
 def post(
     parkhaus_model: ParkhausModel,
     request: Request,
     service: Annotated[ParkhausWriteService, Depends(get_write_service)],
 ) -> Response:
-    """POST-Request, um einen neuen Parkhaus anzulegen.
+    """POST-Request, um ein neues Parkhaus anzulegen.
 
     :param parkhaus_model: Parkhausdaten als Pydantic-Model
-    :param request: Injiziertes Request-Objekt von FastAPI mit der Request-URL
-    :param service: Injizierter Service für Geschäftslogik
+    :param request: injizierter Request-Objekt von FastAPI mit der Request-URL
+    :param service: injizierter Service für Geschäftslogik
     :rtype: Response
     :raises ValidationError: Falls es bei Pydantic Validierungsfehler gibt
     """
@@ -42,7 +46,10 @@ def post(
     )
 
 
-@parkhaus_write_router.delete("/{parkhaus_id}")
+@parkhaus_write_router.delete(
+    "/{parkhaus_id}",
+    dependencies=[Depends(RolesRequired([Role.ADMIN]))],
+)
 def delete(
     parkhaus_id: int,
     service: Annotated[ParkhausWriteService, Depends(get_write_service)],
@@ -50,8 +57,7 @@ def delete(
     """DELETE-Request, um ein Parkhaus zu löschen.
 
     :param parkhaus_id: Die ID des zu löschenden Parkhauses.
-    :param request: Injiziertes Request-Objekt von FastAPI mit der Request-URL
-    :param service: Injizierter Service für Geschäftslogik
+    :param service: injizierter Service für Geschäftslogik
     :rtype: Response
     """
     logger.debug("parkhaus_id={}", parkhaus_id)
@@ -60,7 +66,10 @@ def delete(
     return Response(status_code=status.HTTP_204_NO_CONTENT)
 
 
-@parkhaus_write_router.put("/{parkhaus_id}")
+@parkhaus_write_router.put(
+    "/{parkhaus_id}",
+    dependencies=[Depends(RolesRequired([Role.ADMIN]))],
+)
 def put(
     parkhaus_id: int,
     parkhaus_update_model: ParkhausUpdateModel,
@@ -72,7 +81,7 @@ def put(
     :param parkhaus_id: Die ID des zu aktualisierenden Parkhauses.
     :param parkhaus_update_model: Die aktualisierten Parkhausdaten als Pydantic-Model.
     :param request: Injiziertes Request-Objekt von FastAPI mit der Request-URL
-    :param service: Injizierter Service für Geschäftslogik
+    :param service: injizierter Service für Geschäftslogik
     :rtype: Response
     :raises ValidationError: Falls es bei Pydantic Validierungsfehler gibt
     """
