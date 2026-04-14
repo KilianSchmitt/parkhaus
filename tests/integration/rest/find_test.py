@@ -110,5 +110,4 @@ def test_find_with_pagination() -> None:
     assert isinstance(response_body, dict)
     content: Final = response_body.get("content")
     assert isinstance(content, list)
-    assert len(content) <= 2
-
+    assert len(content) <= 2  # noqa: PLR2004

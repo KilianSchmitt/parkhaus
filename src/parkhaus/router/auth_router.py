@@ -1,4 +1,8 @@
-"""Auth-Router für den Token-Endpunkt (wird für Integrationstests benötigt, um einen Token zu holen)."""
+"""Auth-Router für den Token-Endpunkt.
+
+Wird für Integrationstests benötigt, um einen Token zu holen.
+"""
+
 from typing import Annotated, Final
 
 from fastapi import APIRouter, Depends, status
@@ -40,4 +44,3 @@ def token(
     access_token: Final = keycloak_token.get("access_token")
     logger.debug("access_token={}", access_token)
     return JSONResponse(content={"token": access_token})
-

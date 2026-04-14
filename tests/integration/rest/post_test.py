@@ -70,7 +70,7 @@ def test_post_invalid() -> None:
     token: Final = login()
     headers: Final = {
         "Content-Type": "application/json",
-        "Authorization": f"Bearer {token}"
+        "Authorization": f"Bearer {token}",
     }
 
     # act
