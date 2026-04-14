@@ -1,4 +1,5 @@
 """FastAPI App."""
+
 from contextlib import asynccontextmanager
 from typing import TYPE_CHECKING, Final
 
@@ -82,8 +83,7 @@ app.include_router(graphql_router, prefix="/graphql")
 # --------------------------------------------------------------------------------------
 @app.exception_handler(AuthorizationError)
 def authorization_error_handler(
-    _request: Request,
-    _err: AuthorizationError
+    _request: Request, _err: AuthorizationError
 ) -> Response:
     """Errorhandler für AuthorizationError.
 
@@ -95,10 +95,7 @@ def authorization_error_handler(
 
 
 @app.exception_handler(NotFoundError)
-def not_found_error_handler(
-    _request: Request,
-    _err: NotFoundError
-) -> Response:
+def not_found_error_handler(_request: Request, _err: NotFoundError) -> Response:
     """Errorhandler für NotFoundError.
 
     :param _err: NotFoundError aus der Geschäftslogik
@@ -110,19 +107,15 @@ def not_found_error_handler(
 
 @app.exception_handler(ParkingFacilityFullError)
 def parking_facility_full_error_handler(
-    _request: Request,
-    err: ParkingFacilityFullError
-    ) -> Response:
+    _request: Request, err: ParkingFacilityFullError
+) -> Response:
     """Errorhandler für ParkingFacilityFullError.
 
     :param _err: ParkingFacilityFullError aus der Geschäftslogik
     :return: Response mit Statuscode 409
     :rtype: Response
     """
-    return create_problem_details(
-        status_code=status.HTTP_409_CONFLICT,
-        detail=str(err)
-    )
+    return create_problem_details(status_code=status.HTTP_409_CONFLICT, detail=str(err))
 
 
 @app.exception_handler(VersionOutdatedError)

@@ -50,9 +50,7 @@ class ParkhausService:
         return parkhaus_dto
 
     def find(
-        self,
-        suchparameter: Mapping[str, str],
-        pageable: Pageable
+        self, suchparameter: Mapping[str, str], pageable: Pageable
     ) -> Slice[ParkhausDTO]:
         """Findet Parkhäuser anhand von Suchparametern.
 

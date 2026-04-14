@@ -1,4 +1,5 @@
 """Tests für POST."""
+
 from http import HTTPStatus
 from re import search
 from typing import Final
@@ -20,15 +21,15 @@ def test_post() -> None:
             "plz": "76756",
             "ort": "Bellheim",
             "strasse": "Hauptstraße",
-            "hausnummer": "101"
+            "hausnummer": "101",
         },
         "autos": [
             {
                 "kennzeichen": "GER-JD-2026",
                 "einfahrtszeit": "2026-04-02T09:00:00Z",
-                "kundentyp": "ANWOHNER"
+                "kundentyp": "ANWOHNER",
             }
-        ]
+        ],
     }
     headers = {"Content-Type": "application/json"}
 
@@ -61,8 +62,8 @@ def test_post_invalid() -> None:
             "plz": "76756",
             "ort": "Bellheim",
             "strasse": "Hauptstraße",
-            "hausnummer": "101"
-        }
+            "hausnummer": "101",
+        },
     }
     headers = {"Content-Type": "application/json"}
 
@@ -92,20 +93,20 @@ def test_post_parkhaus_voll() -> None:
             "plz": "76756",
             "ort": "Bellheim",
             "strasse": "Hauptstraße",
-            "hausnummer": "101"
+            "hausnummer": "101",
         },
         "autos": [
             {
                 "kennzeichen": "GER-JD-2026",
                 "einfahrtszeit": "2026-04-02T09:00:00Z",
-                "kundentyp": "ANWOHNER"
+                "kundentyp": "ANWOHNER",
             },
             {
                 "kennzeichen": "GER-JD-2026",
                 "einfahrtszeit": "2026-04-02T09:00:00Z",
-                "kundentyp": "ANWOHNER"
-            }
-        ]
+                "kundentyp": "ANWOHNER",
+            },
+        ],
     }
     headers = {"Content-Type": "application/json"}
 
@@ -140,5 +141,5 @@ def test_post_invalid_json() -> None:
     # assert
     assert response.status_code in {
         HTTPStatus.BAD_REQUEST,
-        HTTPStatus.UNPROCESSABLE_ENTITY
+        HTTPStatus.UNPROCESSABLE_ENTITY,
     }

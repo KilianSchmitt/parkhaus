@@ -22,7 +22,7 @@ parkhaus_router: Final = APIRouter(tags=["Lesen"])
 
 @parkhaus_router.get(
     path="/{parkhaus_id}",
-    dependencies=[Depends(RolesRequired([Role.ADMIN, Role.PATIENT]))]
+    dependencies=[Depends(RolesRequired([Role.ADMIN, Role.PATIENT]))],
 )
 def get_by_id(
     parkhaus_id: int,
@@ -59,8 +59,8 @@ def get_by_id(
 
 @parkhaus_router.get("")
 def get(
-        request: Request,
-        service: Annotated[ParkhausService, Depends(get_service)],
+    request: Request,
+    service: Annotated[ParkhausService, Depends(get_service)],
 ) -> JSONResponse:
     """Suche mit Query-Parameter.
 

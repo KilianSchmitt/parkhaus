@@ -1,4 +1,5 @@
 """ParkhausWriteRouter."""
+
 from typing import Annotated, Final
 
 from fastapi import APIRouter, Depends, Request, Response, status
@@ -59,9 +60,7 @@ def delete(
     return Response(status_code=status.HTTP_204_NO_CONTENT)
 
 
-@parkhaus_write_router.put(
-    "/{parkhaus_id}"
-    )
+@parkhaus_write_router.put("/{parkhaus_id}")
 def put(
     parkhaus_id: int,
     parkhaus_update_model: ParkhausUpdateModel,
@@ -82,7 +81,7 @@ def put(
         "parkhaus_id={}, if_match={}, parkhaus_update_model={}",
         parkhaus_id,
         if_match_value,
-        parkhaus_update_model
+        parkhaus_update_model,
     )
 
     if if_match_value is None:
@@ -109,9 +108,7 @@ def put(
 
     parkhaus: Final = parkhaus_update_model.to_parkhaus()
     parkhaus_modified: Final = service.update(
-        parkhaus_id=parkhaus_id,
-        parkhaus=parkhaus,
-        version=version_int
+        parkhaus_id=parkhaus_id, parkhaus=parkhaus, version=version_int
     )
     logger.debug("parkhaus_modified={}", parkhaus_modified)
 

@@ -1,4 +1,5 @@
 """Pydantic-Modell für das Parkhaus."""
+
 from decimal import Decimal
 from typing import Final
 
@@ -19,6 +20,7 @@ class ParkhausModel(ParkhausUpdateModel):
 
     autos: list[AutoModel]
     """Die Liste der Autos, die im Parkhaus geparkt sind."""
+
     @field_serializer("tarif_pro_stunde")
     def serialize_decimal(self, value: Decimal, _info):
         """Wandelt Decimal für JSON in einen String um."""
@@ -62,8 +64,6 @@ class ParkhausModel(ParkhausUpdateModel):
 
         parkhaus: Final = Parkhaus(**parkhaus_dict)
         parkhaus.adresse = self.adresse.to_adresse()
-        parkhaus.autos = [
-            auto_model.to_auto() for auto_model in self.autos
-        ]
+        parkhaus.autos = [auto_model.to_auto() for auto_model in self.autos]
         logger.debug("parkhaus={}", parkhaus)
         return parkhaus

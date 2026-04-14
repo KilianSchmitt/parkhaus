@@ -80,9 +80,7 @@ class ParkhausRepository:
         """
         logger.debug("parkhaus={}", parkhaus)
 
-        if (
-            parkhaus_db := self.find_by_id(parkhaus.id, session)
-        ) is None:
+        if (parkhaus_db := self.find_by_id(parkhaus.id, session)) is None:
             return None
 
         logger.debug("parkhaus_db={}", parkhaus_db)
@@ -109,9 +107,7 @@ class ParkhausRepository:
         for key, value in suchparameter.items():
             if key == "name":
                 return self._find_by_name(
-                    teil=value,
-                    pageable=pageable,
-                    session=session
+                    teil=value, pageable=pageable, session=session
                 )
         return Slice(content=(), total_elements=0)
 
@@ -126,10 +122,7 @@ class ParkhausRepository:
         return Slice(content=parkhaeuser, total_elements=len(parkhaeuser))
 
     def _find_by_name(
-        self,
-        teil: str,
-        pageable: Pageable,
-        session: Session
+        self, teil: str, pageable: Pageable, session: Session
     ) -> Slice[Parkhaus]:
         statement: Final = (
             select(Parkhaus)
