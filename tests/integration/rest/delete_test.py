@@ -2,7 +2,7 @@
 
 from typing import Final
 
-from common_test import ctx, login, rest_parkhaeuser_url
+from common_test import ctx, rest_parkhaeuser_url
 from httpx import delete
 from pytest import mark
 

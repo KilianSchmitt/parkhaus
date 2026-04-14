@@ -3,7 +3,7 @@
 from http import HTTPStatus
 from typing import Final
 
-from common_test import ctx, login, rest_parkhaeuser_url
+from common_test import ctx, rest_parkhaeuser_url
 from httpx import put
 from pytest import mark
 
@@ -17,7 +17,7 @@ def test_put() -> None:
     geaendertes_parkhaus: Final = {
         "name": "Parkhaus am Schloss",
         "kapazitaet": 250,
-        "tarif_pro_stunde": "15.00"
+        "tarif_pro_stunde": "15.00",
     }
     headers = {
         "If-Match": if_match,
@@ -73,7 +73,7 @@ def test_put_nicht_vorhanden() -> None:
     geaendertes_parkhaus: Final = {
         "name": "Parkhaus am Schloss",
         "kapazitaet": 250,
-        "tarif_pro_stunde": "15.00"
+        "tarif_pro_stunde": "15.00",
     }
     headers = {
         "If-Match": if_match,
@@ -99,15 +99,8 @@ def test_put_ohne_versionsnr() -> None:
     geaendertes_parkhaus: Final = {
         "name": "Parkhaus am Schloss",
         "kapazitaet": 250,
-        "tarif_pro_stunde": "15.00"
+        "tarif_pro_stunde": "15.00",
     }
-
-    # act
-    response: Final = put(
-        f"{rest_parkhaeuser_url}/{parkhaus_id}",
-        json=geaendertes_parkhaus,
-        verify=ctx,
-    )
 
     # act
     response: Final = put(
@@ -129,7 +122,7 @@ def test_put_alte_versionsnr() -> None:
     geaendertes_parkhaus: Final = {
         "name": "Parkhaus am Schloss",
         "kapazitaet": 250,
-        "tarif_pro_stunde": "15.00"
+        "tarif_pro_stunde": "15.00",
     }
     headers = {
         "If-Match": if_match,
@@ -156,7 +149,7 @@ def test_put_ungueltige_versionsnr() -> None:
     geaendertes_parkhaus: Final = {
         "name": "Parkhaus am Schloss",
         "kapazitaet": 250,
-        "tarif_pro_stunde": "15.00"
+        "tarif_pro_stunde": "15.00",
     }
     headers = {
         "If-Match": if_match,
@@ -184,7 +177,7 @@ def test_put_versionsnr_ohne_quotes() -> None:
     geaendertes_parkhaus: Final = {
         "name": "Parkhaus am Schloss",
         "kapazitaet": 250,
-        "tarif_pro_stunde": "15.00"
+        "tarif_pro_stunde": "15.00",
     }
     headers = {
         "If-Match": if_match,

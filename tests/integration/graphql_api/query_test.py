@@ -3,7 +3,7 @@
 from http import HTTPStatus
 from typing import Final
 
-from common_test import ctx, graphql_url, login_graphql
+from common_test import ctx, graphql_url
 from httpx import post
 from pytest import mark
 

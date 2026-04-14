@@ -1,4 +1,5 @@
 """Geschäftslogik zum Schreiben von Parkhaus-Daten."""
+
 from typing import Final
 
 from loguru import logger
@@ -39,15 +40,11 @@ class ParkhausWriteService:
 
         if parkhaus.kapazitaet < len(parkhaus.autos):
             raise ParkingFacilityFullError(
-                parkhaus_id=parkhaus.id,
-                kapazitaet=parkhaus.kapazitaet
+                parkhaus_id=parkhaus.id, kapazitaet=parkhaus.kapazitaet
             )
 
         with Session() as session:
-            parkhaus_db: Final = self.repo.create(
-                parkhaus=parkhaus,
-                session=session
-            )
+            parkhaus_db: Final = self.repo.create(parkhaus=parkhaus, session=session)
             parkhaus_dto: Final = ParkhausDTO(parkhaus_db)
             session.commit()
 
@@ -84,8 +81,7 @@ class ParkhausWriteService:
 
             if parkhaus.kapazitaet < len(parkhaus_db.autos):
                 raise ParkingFacilityFullError(
-                    parkhaus_id=parkhaus.id,
-                    kapazitaet=parkhaus.kapazitaet
+                    parkhaus_id=parkhaus.id, kapazitaet=parkhaus.kapazitaet
                 )
 
             parkhaus_db.set(parkhaus)

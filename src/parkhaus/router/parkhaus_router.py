@@ -7,13 +7,13 @@ from fastapi import APIRouter, Depends, Request, Response, status
 from fastapi.responses import JSONResponse
 from loguru import logger
 
-from parkhaus.router.constants import ETAG, IF_NONE_MATCH, IF_NONE_MATCH_MIN_LEN
-from parkhaus.router.dependencies import get_service
-from parkhaus.security import RolesRequired, Role
-from parkhaus.service import ParkhausDTO, ParkhausService
 from parkhaus.repository import Pageable
 from parkhaus.repository.slice import Slice
+from parkhaus.router.constants import ETAG, IF_NONE_MATCH, IF_NONE_MATCH_MIN_LEN
+from parkhaus.router.dependencies import get_service
 from parkhaus.router.page import Page
+from parkhaus.security import Role, RolesRequired
+from parkhaus.service import ParkhausDTO, ParkhausService
 
 __all__: list[str] = ["parkhaus_router"]
 
@@ -22,7 +22,7 @@ parkhaus_router: Final = APIRouter(tags=["Lesen"])
 
 @parkhaus_router.get(
     path="/{parkhaus_id}",
-    dependencies=[Depends(RolesRequired([Role.ADMIN, Role.PATIENT]))]
+    dependencies=[Depends(RolesRequired([Role.ADMIN, Role.PATIENT]))],
 )
 def get_by_id(
     parkhaus_id: int,
@@ -56,10 +56,11 @@ def get_by_id(
         headers={ETAG: f'"{parkhaus.version}"'},
     )
 
+
 @parkhaus_router.get("")
 def get(
-        request: Request,
-        service: Annotated[ParkhausService, Depends(get_service)],
+    request: Request,
+    service: Annotated[ParkhausService, Depends(get_service)],
 ) -> JSONResponse:
     """Suche mit Query-Parameter.
 
@@ -70,7 +71,6 @@ def get(
     :rtype: JSONResponse
     :raises NotFoundError: Wenn kein Parkhaus gefunden wurde.
     """
-
     query_params: Final = request.query_params
     logger.debug("{}", query_params)
 
@@ -87,6 +87,7 @@ def get(
     result: Final = _parkhaus_slice_to_page(parkhaus_slice, pageable)
     logger.debug("result={}", result)
     return JSONResponse(content=result)
+
 
 def _parkhaus_slice_to_page(
     parkhaus_slice: Slice[ParkhausDTO],

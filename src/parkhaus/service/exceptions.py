@@ -17,11 +17,7 @@
 
 from collections.abc import Mapping
 
-__all__ = [
-    "NotFoundError",
-    "ParkingFacilityFullError",
-    "VersionOutdatedError"
-]
+__all__ = ["NotFoundError", "ParkingFacilityFullError", "VersionOutdatedError"]
 
 
 class NotFoundError(Exception):
@@ -46,9 +42,7 @@ class ParkingFacilityFullError(Exception):
     """Exception, falls das Parkhaus voll ist."""
 
     def __init__(
-        self,
-        parkhaus_id: int | None = None,
-        kapazitaet: int | None = None
+        self, parkhaus_id: int | None = None, kapazitaet: int | None = None
     ) -> None:
         """Initialisierung von ParkingFacilityFullError mit ID und Kapazität.
 

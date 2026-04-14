@@ -15,7 +15,6 @@
 
 """Neuladen von Keycloak im Modus DEV."""
 
-from csv import reader
 from pathlib import Path
 from typing import Annotated, Final
 
@@ -25,9 +24,8 @@ from loguru import logger
 
 from parkhaus.config import csv_config
 from parkhaus.config.dev_modus import dev_keycloak_populate
-from parkhaus.security import User, UserService
+from parkhaus.security import UserService
 from parkhaus.security.dependencies import get_user_service
-from parkhaus.security.role import Role
 
 __all__ = [
     "KeycloakPopulateService",
@@ -85,7 +83,7 @@ class KeycloakPopulateService:
         #         user = User(
         #             username=username,
         #             roles=[Role.PATIENT],
-        #             password="p",  # noqa: S106 # NOSONAR
+        #             password="p",  # NOSONAR
         #         )
         #         self.user_service.create_user(user=user)
         # logger.debug("Alle User zu 'parkhaus.csv' neu angelegt")
