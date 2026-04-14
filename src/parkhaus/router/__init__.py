@@ -2,6 +2,7 @@
 
 from collections.abc import Sequence
 
+from parkhaus.router.auth_router import auth_router
 from parkhaus.router.health_router import liveness, readiness
 from parkhaus.router.health_router import router as health_router
 from parkhaus.router.hello_router import hello_router
@@ -11,6 +12,7 @@ from parkhaus.router.shoutdown_router import router as shutdown_router
 from parkhaus.router.shoutdown_router import shutdown
 
 __all__: Sequence[str] = [
+    "auth_router",
     "delete",
     "get_by_id",
     "health_router",
