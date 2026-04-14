@@ -4,7 +4,7 @@ from http import HTTPStatus
 from re import search
 from typing import Final
 
-from common_test import ctx, rest_parkhaeuser_url
+from common_test import ctx, login, rest_parkhaeuser_url
 from httpx import post
 from pytest import mark
 
@@ -31,7 +31,8 @@ def test_post() -> None:
             }
         ],
     }
-    headers = {"Content-Type": "application/json"}
+    token: Final = login()
+    headers = {"Authorization": f"Bearer {token}"}
 
     # act
     response: Final = post(
@@ -65,7 +66,12 @@ def test_post_invalid() -> None:
             "hausnummer": "101",
         },
     }
-    headers = {"Content-Type": "application/json"}
+
+    token: Final = login()
+    headers: Final = {
+        "Content-Type": "application/json",
+        "Authorization": f"Bearer {token}"
+    }
 
     # act
     response: Final = post(
@@ -108,7 +114,8 @@ def test_post_parkhaus_voll() -> None:
             },
         ],
     }
-    headers = {"Content-Type": "application/json"}
+    token: Final = login()
+    headers = {"Authorization": f"Bearer {token}"}
 
     # act
     response: Final = post(
@@ -128,7 +135,8 @@ def test_post_parkhaus_voll() -> None:
 def test_post_invalid_json() -> None:
     # arrange
     json_invalid: Final = '{"name" "parkhaus"}'
-    headers = {"Content-Type": "application/json"}
+    token: Final = login()
+    headers = {"Authorization": f"Bearer {token}"}
 
     # act
     response: Final = post(
