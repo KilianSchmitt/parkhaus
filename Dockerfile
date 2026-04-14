@@ -97,7 +97,7 @@ LABEL org.opencontainers.image.title="parkhaus" \
     org.opencontainers.image.description="Appserver parkhaus mit Basis-Image Trixie hardened" \
     org.opencontainers.image.version="2026.4.1-hardened" \
     org.opencontainers.image.licenses="GPL-3.0-or-later" \
-    org.opencontainers.image.authors="Juergen.Zimmermann@h-ka.de"
+    org.opencontainers.image.authors="dojo1024@h-ka.de, scki1021@h-ka.de, Juergen.Zimmermann@h-ka.de"
 
 # "working directory" fuer die Docker-Kommandos RUN, ENTRYPOINT, CMD, COPY und ADD
 WORKDIR /opt/app
