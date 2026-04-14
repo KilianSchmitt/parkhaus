@@ -19,9 +19,7 @@ __all__: list[str] = ["parkhaus_router"]
 parkhaus_router: Final = APIRouter(tags=["Lesen"])
 
 
-@parkhaus_router.get(
-    path="/{parkhaus_id}"
-)
+@parkhaus_router.get(path="/{parkhaus_id}")
 def get_by_id(
     parkhaus_id: int,
     request: Request,
