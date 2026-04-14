@@ -6,3 +6,7 @@ lint:
 # ruff Formatierung
 format:
 	uvx ruff format src tests
+
+security:
+	uv audit --no-dev || true
+	uv tree --outdated --all-groups --depth=1
