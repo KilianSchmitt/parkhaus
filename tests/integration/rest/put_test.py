@@ -3,7 +3,7 @@
 from http import HTTPStatus
 from typing import Final
 
-from common_test import ctx, rest_parkhaeuser_url
+from common_test import ctx, login, rest_parkhaeuser_url
 from httpx import put
 from pytest import mark
 
@@ -19,7 +19,9 @@ def test_put() -> None:
         "kapazitaet": 250,
         "tarif_pro_stunde": "15.00",
     }
+    token: Final = login()
     headers = {
+        "Authorization": f"Bearer {token}",
         "If-Match": if_match,
     }
 
@@ -45,8 +47,11 @@ def test_put_invalid() -> None:
         "name": "Parkhaus am Schloss",
         "kapazitaet": 250,
     }
+
+    token: Final = login()
     headers = {
         "If-Match": '"0"',
+        "Authorization": f"Bearer {token}",
     }
 
     # act
@@ -75,7 +80,9 @@ def test_put_nicht_vorhanden() -> None:
         "kapazitaet": 250,
         "tarif_pro_stunde": "15.00",
     }
+    token: Final = login()
     headers = {
+        "Authorization": f"Bearer {token}",
         "If-Match": if_match,
     }
 
@@ -101,11 +108,14 @@ def test_put_ohne_versionsnr() -> None:
         "kapazitaet": 250,
         "tarif_pro_stunde": "15.00",
     }
+    token: Final = login()
+    headers = {"Authorization": f"Bearer {token}"}
 
     # act
     response: Final = put(
         f"{rest_parkhaeuser_url}/{parkhaus_id}",
         json=geaendertes_parkhaus,
+        headers=headers,
         verify=ctx,
     )
 
@@ -124,7 +134,9 @@ def test_put_alte_versionsnr() -> None:
         "kapazitaet": 250,
         "tarif_pro_stunde": "15.00",
     }
+    token: Final = login()
     headers = {
+        "Authorization": f"Bearer {token}",
         "If-Match": if_match,
     }
 
@@ -151,7 +163,9 @@ def test_put_ungueltige_versionsnr() -> None:
         "kapazitaet": 250,
         "tarif_pro_stunde": "15.00",
     }
+    token: Final = login()
     headers = {
+        "Authorization": f"Bearer {token}",
         "If-Match": if_match,
     }
 
@@ -179,7 +193,9 @@ def test_put_versionsnr_ohne_quotes() -> None:
         "kapazitaet": 250,
         "tarif_pro_stunde": "15.00",
     }
+    token: Final = login()
     headers = {
+        "Authorization": f"Bearer {token}",
         "If-Match": if_match,
     }
 
