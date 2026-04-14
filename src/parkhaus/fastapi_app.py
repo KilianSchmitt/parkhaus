@@ -18,6 +18,7 @@ from parkhaus.graphql_api import graphql_router
 from parkhaus.problem_details import create_problem_details
 from parkhaus.repository.session_factory import engine
 from parkhaus.router import (
+    auth_router,
     health_router,
     hello_router,
     parkhaus_router,
@@ -64,6 +65,7 @@ app: FastAPI = FastAPI(lifespan=lifespan)
 app.include_router(hello_router, prefix="/rest")
 app.include_router(parkhaus_router, prefix="/rest/parkhaeuser")
 app.include_router(parkhaus_write_router, prefix="/rest/parkhaeuser")
+app.include_router(auth_router, prefix="/auth")
 app.include_router(health_router, prefix="/health")
 app.include_router(shutdown_router, prefix="/admin")
 
