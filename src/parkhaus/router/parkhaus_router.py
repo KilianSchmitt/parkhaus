@@ -12,7 +12,6 @@ from parkhaus.repository.slice import Slice
 from parkhaus.router.constants import ETAG, IF_NONE_MATCH, IF_NONE_MATCH_MIN_LEN
 from parkhaus.router.dependencies import get_service
 from parkhaus.router.page import Page
-from parkhaus.security import Role, RolesRequired
 from parkhaus.service import ParkhausDTO, ParkhausService
 
 __all__: list[str] = ["parkhaus_router"]
@@ -20,10 +19,7 @@ __all__: list[str] = ["parkhaus_router"]
 parkhaus_router: Final = APIRouter(tags=["Lesen"])
 
 
-@parkhaus_router.get(
-    path="/{parkhaus_id}",
-    dependencies=[Depends(RolesRequired([Role.ADMIN, Role.PATIENT]))],
-)
+@parkhaus_router.get(path="/{parkhaus_id}")
 def get_by_id(
     parkhaus_id: int,
     request: Request,
