@@ -40,6 +40,7 @@ def test_post() -> None:
         json=neues_parkhaus,
         headers=headers,
         verify=ctx,
+        timeout=10.0,
     )
 
     # assert
