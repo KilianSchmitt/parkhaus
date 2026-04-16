@@ -132,15 +132,15 @@ dependencies = [
     # https://github.com/latchset/jwcrypto genutzt von python-keycloak
     # TODO https://github.com/marcospereirampj/python-keycloak/issues/674
     # CVE-2026-39373: JWE ZIP decompression bomb - kein Fix verfügbar (Stand: April 2026)
-    "jwcrypto>=1.5.6",
+    "jwcrypto>=1.5.7",
     # https://github.c om/Delgan/loguru
     "loguru>=0.7.3",
     # https://openpyxl.readthedocs.io
     "openpyxl>=3.1.5",
     # Fast, correct Python JSON library supporting dataclasses, datetimes, and numpy
-    "orjson>=3.11.7",
+    "orjson>=3.11.8",
     # https://github.com/prometheus/client_python
-    "prometheus-client >= 0.24.1",
+    "prometheus-client >= 0.25.0",
     # https://github.com/trallnag/prometheus-fastapi-instrumentator
     "prometheus-fastapi-instrumentator>=7.1.0",
     # https://www.psycopg.org/psycopg3 https://github.com/psycopg/psycopg3
@@ -148,9 +148,9 @@ dependencies = [
     "psycopg-binary>=3.3.3",
     "psycopg-pool>=3.3.0",
     # Validierung https://github.com/pydantic/pydantic https://github.com/pydantic/pydantic/blob/main/pyproject.toml#L51
-    "pydantic[email]>=2.12.5",
+    "pydantic[email]>=2.13.1",
     # "Core" fuer Pydantic, implementiert in Rust https://github.com/pydantic/pydantic-core
-    "pydantic_core>=2.41.5",
+    "pydantic_core>=2.46.1",
     # https://github.com/pwaller/pyfiglet
     "pyfiglet>=1.0.4",
     # CVE-2026-4539: ReDoS via inefficient GUID regex, fixed in 2.20.0
@@ -167,7 +167,7 @@ dependencies = [
     # TODO https://github.com/marcospereirampj/python-keycloak/issues/677
     "python-keycloak>=7.1.1",
     # https://github.com/Kludex/python-multipart fuer fastapi
-    "python-multipart>=v0.0.22",
+    "python-multipart>=v0.0.26",
     # fuer OpenAPI
     "PyYAML>=6.0.3",
     # https://requests.readthedocs.io
@@ -176,7 +176,7 @@ dependencies = [
     "requests>=2.33.0",
     # https://www.sqlalchemy.org
     # nutzt greenlet: unterstuetzt NICHT free-threaded CPython
-    "SQLAlchemy>=2.0.48",
+    "SQLAlchemy>=2.0.49",
     # https://www.starlette.dev
     # https://github.com/fastapi/fastapi/blob/master/pyproject.toml#L46
     #"starlette>=1.0.0",
@@ -189,7 +189,7 @@ dependencies = [
     # fuer requests
     "urllib3>=2.6.3",
     # https://www.uvicorn.dev
-    "uvicorn>=0.42.0",
+    "uvicorn>=0.44.0",
 ]
 
 [project.scripts]
@@ -214,18 +214,18 @@ changelog = "https://github.com/juergenzimmermann/parkhaus/blob/master/CHANGELOG
 [dependency-groups]
 dev = [
     # FastAPI CLI
-    "fastapi[standard]>=0.135.1",
+    "fastapi[standard]>=0.135.3",
     # http://www.gevent.org genutzt von locust
-    "gevent>=v25.9.1",
+    "gevent>=v24.10.1",
     # https://github.com/MagicStack/httptools genutzt von uvicorn[standard] fuer fastapi[standard]
     "httptools>=0.7.1",
     # Safely pass data to untrusted environments and back
     # Locust > Flask > itsdangerous
     "itsdangerous>=2.2.0",
     # https://locust.io
-    "locust>=2.43.3",
+    "locust>=2.43.4",
     # https://pytest.org
-    "pytest>=9.0.2",
+    "pytest>=9.0.3",
     # https://pytest-cov.readthedocs.io
     "pytest-cov>=7.0.0",
     # https://github.com/pytest-dev/pytest-env
@@ -235,12 +235,12 @@ dev = [
     # https://github.com/pytest-dev/pytest-mock
     "pytest-mock>=3.15.1",
     # Locust > Flask > Werkzeug
-    "Werkzeug>=3.1.6",
+    "Werkzeug>=3.1.8",
 ]
 doc = [
     # https://github.com/mkdocstrings/griffe
     # mkdocstrings-python > griffe
-    "griffe>=2.0.0",
+    "griffe>=2.0.2",
     # https://github.com/Python-Markdown/markdown
     "Markdown>=3.10.2",
     # https://mistune.lepture.com
@@ -254,22 +254,22 @@ doc = [
     # https://www.mkdocs.org
     "mkdocs>=1.6.1",
     # https://mkdocstrings.github.io https://mkdocstrings.github.io/python
-    "mkdocstrings[python]>=1.0.3",
+    "mkdocstrings[python]>=1.0.4",
     "mkdocstrings-python>=2.0.3",
 ]
 lint = [
     # https://github.com/pypa/pip-audit
     "pip-audit>=2.10.0",
     # https://docs.pysentry.com
-    "pysentry-rs>=0.4.3",
+    "pysentry-rs>=0.4.5",
     # http://pyrefly.org
     #"pyrefly>=0.18.0",
     # https://docs.astral.sh/ruff
-    "ruff>=0.15.6",
+    "ruff>=0.15.10",
     # https://github.com/astral-sh/ty
-    "ty>=0.0.23",
-    "types-openpyxl>=3.1.5.20260316",
-    "types-tabulate>=0.10.0.20260308",
+    "ty>=0.0.31",
+    "types-openpyxl>=3.1.5.20260408",
+    "types-tabulate>=0.10.0.20260408",
     # https://github.com/jendrikseipp/vulture
     # "vulture>=2.7",
 ]
